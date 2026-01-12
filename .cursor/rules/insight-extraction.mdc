@@ -1,0 +1,104 @@
+---
+description: Rules for extracting customer insights from research data
+globs: ["**/context/**", "**/transcripts/**", "**/surveys/**"]
+---
+
+# Insight Extraction Rules
+
+When analyzing research data to extract insights, follow these guidelines:
+
+## Reading Research Data
+
+### Interview Transcripts
+- Look for emotional language indicating pain points
+- Note behavioral patterns described by participants
+- Capture direct quotes that illustrate key points
+- Pay attention to workarounds users mention
+- Identify unmet needs from wishlist items
+
+### Survey Data
+- Analyze both quantitative trends and qualitative responses
+- Look for outliers that may indicate unique segments
+- Cross-reference free-text responses with ratings
+- Identify patterns across demographic groups
+
+### Reports/Documents
+- Extract key findings and recommendations
+- Note methodology limitations
+- Capture statistical highlights
+- Link conclusions to evidence
+
+## Extraction Process
+
+1. **First Pass: Highlight Candidates**
+   - Mark statements that reveal user behavior
+   - Note emotional expressions
+   - Flag feature requests or complaints
+   - Identify quantitative data points
+
+2. **Second Pass: Synthesize Insights**
+   - Combine related observations
+   - Ensure each insight is atomic (one idea)
+   - Write clear, specific titles
+   - Avoid vague generalizations
+
+3. **Third Pass: Validate & Categorize**
+   - Verify evidence supports the insight
+   - Assign appropriate category
+   - Rate impact and confidence
+   - Add context tags
+
+## Example Transformations
+
+### Raw Quote → Insight
+
+**Raw:**
+> "I always forget to check my subscription before it renews. Last month I got charged for something I didn't even use anymore."
+
+**Insight:**
+```json
+{
+  "title": "Users forget subscription renewal dates leading to unwanted charges",
+  "category": "Pain Point",
+  "impactLevel": "High",
+  "confidenceLevel": "High",
+  "evidence": "\"I always forget to check my subscription before it renews. Last month I got charged for something I didn't even use anymore.\" - P7, Interview transcript",
+  "recommendedActions": "1. Implement renewal reminder emails 7 days before charge. 2. Add subscription management dashboard with renewal dates.",
+  "productArea": "Billing",
+  "customerSegment": "Paid User"
+}
+```
+
+### Survey Response → Insight
+
+**Raw Data:**
+- 67% of users rated onboarding as "Difficult" or "Very Difficult"
+- Top complaint: "Too many steps to get started"
+
+**Insight:**
+```json
+{
+  "title": "Majority of users find onboarding process too complex",
+  "category": "Pain Point",
+  "impactLevel": "High",
+  "confidenceLevel": "High",
+  "evidence": "67% rated onboarding as 'Difficult' or 'Very Difficult'. Top complaint: 'Too many steps to get started' (Survey Q12, n=234)",
+  "recommendedActions": "1. Audit onboarding flow and identify steps to remove. 2. Implement progressive disclosure pattern.",
+  "productArea": "Onboarding",
+  "customerSegment": "Free Trial"
+}
+```
+
+## Avoiding Common Mistakes
+
+❌ **Too Vague:** "Users have trouble with the product"
+✅ **Specific:** "Users struggle to find the export function, often looking in Settings instead of the toolbar"
+
+❌ **Bundled:** "Users want better search and filtering and sorting"
+✅ **Atomic:** "Users need search results to update in real-time as they type"
+
+❌ **No Evidence:** "Users probably want dark mode"
+✅ **Evidence-Based:** "5 of 8 interviewed users mentioned eye strain and requested dark mode option"
+
+❌ **Opinion as Insight:** "The dashboard should be redesigned"
+✅ **Observation:** "Users spend 3+ clicks to reach their most-used feature from the dashboard"

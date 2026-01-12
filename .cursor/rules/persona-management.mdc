@@ -1,0 +1,180 @@
+---
+description: Rules for managing and updating customer personas
+globs: ["**/personas/**", "**/shared/personas/**"]
+---
+
+# Persona Management Rules
+
+When creating, updating, or validating customer personas, follow these guidelines:
+
+## Persona Schema
+
+Every persona should include:
+
+### Required Fields
+- **Name** - Memorable archetype label (e.g., "Efficiency Emma", "Startup Sam")
+- **Type** - Primary / Secondary / Negative
+- **Behaviors & Preferences** - How they interact with products
+- **Goals & Motivations** - What they want to achieve
+- **Pain Points & Challenges** - What frustrates them
+
+### Recommended Fields
+- **Age Range** - Gen Z / Millennial / Gen X / Boomer
+- **Market Segment** - Enterprise / Mid-Market / Small Business / Individual
+- **Tech Comfort** - Digital Native / Tech-Comfortable / Moderate / Tech-Hesitant
+- **Decision Making Style** - Data-Driven / Emotion-Led / Social Proof / Price-Focused
+
+### Tracking Fields
+- **Supporting Insights** - List of insight IDs
+- **Confidence Score** - Based on evidence strength
+- **Last Updated** - Date of last revision
+
+## Persona Types
+
+### Primary Persona
+- Represents the core target user
+- Drives most product decisions
+- Has the most supporting evidence
+- Usually 1-2 per product
+
+### Secondary Persona
+- Important but not primary target
+- May have specialized needs
+- Accommodated but not prioritized
+- Usually 2-4 per product
+
+### Negative Persona
+- Who we're NOT building for
+- Helps clarify focus
+- Prevents feature bloat
+- Usually 1-2 per product
+
+## Updating Personas
+
+### When to Update
+- New research adds behavioral data
+- Patterns shift across multiple studies
+- Market conditions change
+- Product pivot affects target users
+
+### Update Process
+
+1. **Review New Insights**
+   - Filter insights relevant to persona segment
+   - Identify behavioral patterns
+   - Note contradictions with existing profile
+
+2. **Assess Impact**
+   - Minor update: New detail, same direction
+   - Major update: Significant behavior change
+   - Flag for review: Contradicts existing data
+
+3. **Document Changes**
+   ```json
+   {
+     "personaId": "efficiency-emma",
+     "action": "update",
+     "changes": {
+       "behaviors": "Added: Prefers keyboard shortcuts over mouse navigation"
+     },
+     "newInsights": ["insight-keyboard-preference"],
+     "rationale": "3 of 5 Enterprise users in recent study demonstrated strong keyboard shortcut usage"
+   }
+   ```
+
+4. **Update Confidence Score**
+   - More supporting insights = higher confidence
+   - Recent insights weighted more heavily
+   - Contradictions lower confidence
+
+## Creating New Personas
+
+### Triggers for New Persona
+- Distinct segment emerges from research
+- Existing personas don't represent a user group
+- Business targets a new market
+
+### Creation Process
+
+1. **Gather Evidence**
+   - Minimum 5 supporting insights
+   - From at least 2 different studies
+   - Clear behavioral differentiation
+
+2. **Draft Profile**
+   ```json
+   {
+     "name": "Budget-Conscious Barbara",
+     "type": "Secondary",
+     "demographics": {
+       "ageRange": "Millennial (27-42)",
+       "marketSegment": "Small Business (10-99)",
+       "techComfort": "Tech-Comfortable"
+     },
+     "behaviors": "Extensively compares pricing before purchase. Uses free tiers to maximum. Tracks spending closely.",
+     "goals": "Get maximum value within tight budget. Scale operations without scaling costs.",
+     "painPoints": "Unexpected charges. Features locked behind higher tiers. Unclear pricing.",
+     "supportingInsights": ["insight-1", "insight-2", "insight-3"]
+   }
+   ```
+
+3. **Validate Against Existing**
+   - Is this truly distinct from existing personas?
+   - Does this segment warrant its own persona?
+   - Are there enough users in this segment?
+
+## Validation Checks
+
+### Flag for Review When:
+- New insight contradicts existing behavior
+- Confidence score drops below threshold
+- No new insights in 90+ days
+- Segment size changes significantly
+
+### Resolution Approach
+```json
+{
+  "personaId": "efficiency-emma",
+  "issue": "New insight suggests preference for guided setup, contradicting 'prefers minimal onboarding'",
+  "conflictingInsights": ["insight-guided-setup-preference"],
+  "resolution": "Investigate: May indicate segment split or context-dependent behavior"
+}
+```
+
+## Confidence Scoring
+
+| Evidence Level | Score Range |
+|---------------|-------------|
+| 10+ insights from 3+ studies | 90-100 |
+| 5-9 insights from 2+ studies | 70-89 |
+| 3-4 insights from 1-2 studies | 50-69 |
+| 1-2 insights | 30-49 |
+| Hypothetical/assumed | 0-29 |
+
+## Example Persona
+
+```json
+{
+  "id": "efficiency-emma",
+  "name": "Efficiency Emma",
+  "type": "Primary",
+  "demographics": {
+    "ageRange": "Millennial (27-42)",
+    "lifeStage": "Established Career",
+    "marketSegment": "Mid-Market (100-999)",
+    "techComfort": "Digital Native"
+  },
+  "behaviors": "Keyboard-first workflow. Batches tasks for efficiency. Uses templates and automation heavily. Low tolerance for repetitive manual work.",
+  "goals": "Minimize time on administrative tasks. Focus on strategic work. Scale personal output.",
+  "painPoints": "Slow interfaces. Lack of keyboard shortcuts. No bulk operations. Manual data entry.",
+  "decisionStyle": "Data-Driven",
+  "deviceUsage": ["Desktop Primary", "Mobile for quick checks"],
+  "supportingInsights": [
+    "insight-keyboard-preference",
+    "insight-batch-operations",
+    "insight-automation-usage"
+  ],
+  "confidenceScore": 85,
+  "lastUpdated": "2024-01-15"
+}
+```

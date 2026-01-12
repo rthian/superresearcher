@@ -1,0 +1,156 @@
+---
+description: SuperResearcher - Customer Insights Research Workflow
+globs: ["**/*.md", "**/*.json"]
+alwaysApply: true
+---
+
+# SuperResearcher AI Rules
+
+You are assisting with a customer research insights workflow. This system extracts, analyzes, and operationalizes customer research data.
+
+## Project Structure
+
+```
+projects/<study-name>/
+├── context/
+│   ├── study.md          # Research study metadata
+│   ├── methodology.md    # Research methods
+│   ├── transcripts/      # Interview transcripts
+│   ├── surveys/          # Survey data (CSV/JSON)
+│   └── reports/          # PDF research reports
+├── insights/
+│   ├── insights.md       # Extracted insights (human-readable)
+│   ├── insights.json     # Insights data (for sync)
+│   └── review.md         # Quality review
+├── personas/
+│   └── updates.md/json   # Persona updates from this study
+├── actions/
+│   └── actions.md/json   # Generated action items
+└── .prompts/             # Generated AI prompts
+
+shared/
+├── personas/             # Global persona definitions
+├── themes/               # Cross-study themes
+├── patterns/             # Identified patterns
+└── analysis/             # Cross-study analysis
+```
+
+## Core Principles
+
+### 1. Atomic Insights
+- One insight = one idea
+- Each insight should be independently actionable
+- Avoid bundling multiple observations
+- Always cite supporting evidence
+
+### 2. Evidence-Based
+- Every insight must link to source research
+- Include verbatim quotes when available
+- Note the source file (transcript, survey question)
+
+### 3. Categorization Standards
+Use these exact categories for insights:
+- **Pain Point** - Frustrations and problems
+- **Opportunity** - Potential improvements
+- **Behavior** - How users actually behave
+- **Preference** - What users prefer or like
+- **Unmet Need** - Gaps in current experience
+- **Bug Report** - Technical issues mentioned
+- **Positive Feedback** - What's working well
+
+### 4. Impact & Confidence Assessment
+Rate every insight:
+- **Impact Level:** High / Medium / Low
+- **Confidence Level:** High / Medium / Low
+
+### 5. Action Orientation
+- Action items must be verb-oriented
+- Include success metrics
+- Estimate effort: Small (<1 week), Medium (1-4 weeks), Large (1+ months)
+
+## Output Formats
+
+### Insights JSON Schema
+```json
+{
+  "extractedAt": "ISO timestamp",
+  "studyId": "project-slug",
+  "totalInsights": 0,
+  "insights": [
+    {
+      "id": "unique-id",
+      "title": "Short, specific insight",
+      "category": "Pain Point",
+      "impactLevel": "High",
+      "confidenceLevel": "High",
+      "evidence": "Verbatim quote with source",
+      "source": "filename.md",
+      "recommendedActions": "1-2 suggestions",
+      "productArea": "Onboarding",
+      "customerSegment": "Enterprise",
+      "tags": ["tag1", "tag2"]
+    }
+  ]
+}
+```
+
+### Actions JSON Schema
+```json
+{
+  "generatedAt": "ISO timestamp",
+  "studyId": "project-slug",
+  "totalActions": 0,
+  "actions": [
+    {
+      "id": "unique-id",
+      "title": "Verb-oriented title",
+      "description": "Detailed explanation",
+      "priority": "High",
+      "department": "Product",
+      "effort": "Medium",
+      "impact": "High",
+      "successMetrics": "Measurable criteria",
+      "sourceInsight": "insight-id",
+      "status": "Not Started"
+    }
+  ]
+}
+```
+
+## When Extracting Insights
+
+1. Read all research materials thoroughly
+2. Identify discrete observations (not bundles)
+3. For each observation:
+   - Write a clear, specific title
+   - Assign appropriate category
+   - Rate impact and confidence
+   - Include verbatim evidence
+   - Suggest 1-2 actions
+4. Generate both .json and .md outputs
+5. Organize by category in markdown
+
+## When Generating Actions
+
+1. Focus on high-impact insights first
+2. Write verb-oriented titles ("Implement...", "Research...", "Fix...")
+3. Include specific success metrics
+4. Estimate effort realistically
+5. Assign to appropriate department
+6. Maintain traceability to source insight
+
+## When Updating Personas
+
+1. Review existing personas first
+2. Link new insights to relevant personas
+3. Update behavioral attributes with new data
+4. Add supporting insight references
+5. Document changes with rationale
+6. Flag conflicts or contradictions
+
+## Quality Standards
+
+- All insights must have: title, category, evidence
+- All actions must have: title, description, priority
+- Links between data must be maintained
+- Use consistent terminology from this ruleset

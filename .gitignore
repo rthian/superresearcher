@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build
+dist/
+build/
+
+# Test
+coverage/
+
+# Notion sync cache
+.notion-cache/
+
+# Temporary files
+*.tmp
+*.temp
+.prompts/*.bak
+
+# Large research files (optional - uncomment if needed)
+# projects/*/context/reports/*.pdf
+# projects/*/context/transcripts/*.mp3
+# projects/*/context/transcripts/*.mp4

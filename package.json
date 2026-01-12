@@ -1,0 +1,46 @@
+{
+  "name": "superresearcher",
+  "version": "1.0.0",
+  "description": "Customer insights research workflow for Cursor - Extract, analyze, and operationalize research data",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "superresearcher": "./src/index.js"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node --test",
+    "lint": "eslint src/"
+  },
+  "keywords": [
+    "research",
+    "customer-insights",
+    "ux-research",
+    "cursor",
+    "ai",
+    "personas",
+    "product-research"
+  ],
+  "author": "Raymond Thian",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "dotenv": "^16.4.5",
+    "fs-extra": "^11.2.0",
+    "glob": "^10.3.10",
+    "inquirer": "^9.2.15",
+    "node-fetch": "^3.3.2",
+    "ora": "^8.0.1",
+    "pdf-parse": "^1.1.1",
+    "csv-parse": "^5.5.3",
+    "uuid": "^9.0.1",
+    "yaml": "^2.4.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,111 @@
+---
+description: Rules for generating action items from customer insights
+globs: ["**/actions/**", "**/insights/**"]
+---
+
+# Action Generation Rules
+
+When converting insights into action items, follow these guidelines:
+
+## Action Item Principles
+
+### 1. Verb-Oriented Titles
+Always start action titles with an action verb:
+- ✅ "Implement reminder notifications for subscription renewals"
+- ✅ "Research competitor onboarding flows"
+- ✅ "Fix layout bug on mobile checkout"
+- ❌ "Subscription reminder notifications"
+- ❌ "Competitor research needed"
+
+### 2. The 5W1H Test
+Every action description should answer:
+- **Who** - Which team/role owns this?
+- **What** - What specifically needs to be done?
+- **Why** - What insight/problem drives this?
+- **When** - What's the timeline/urgency?
+- **Where** - What product area/platform?
+- **How** - What approach or method?
+
+### 3. Measurable Success Metrics
+Define how to measure completion:
+- ✅ "Reduce support tickets about billing by 30%"
+- ✅ "Achieve 4.0+ rating in onboarding survey"
+- ✅ "Decrease time-to-first-value from 15 min to 5 min"
+- ❌ "Users are happier"
+- ❌ "Better experience"
+
+## Priority Matrix
+
+| Impact ↓ / Effort → | Small (<1 week) | Medium (1-4 weeks) | Large (1+ months) |
+|---------------------|-----------------|--------------------|--------------------|
+| **High Impact**     | 🚨 Critical     | 🔴 High            | 🔴 High           |
+| **Medium Impact**   | 🔴 High         | 🟡 Medium          | 🟡 Medium         |
+| **Low Impact**      | 🟡 Medium       | 🟢 Low             | 🟢 Low            |
+
+## Department Assignment Guide
+
+| Insight Type | Primary Department | Secondary |
+|--------------|-------------------|-----------|
+| Technical bugs | Engineering | Support |
+| UX friction | Design | Product |
+| Missing features | Product | Engineering |
+| Pricing concerns | Executive | Marketing |
+| Documentation gaps | Support | Product |
+| Brand perception | Marketing | Executive |
+| Sales objections | Sales | Product |
+
+## Example Transformation
+
+### From Insight:
+```json
+{
+  "title": "Users struggle to find export function",
+  "category": "Pain Point",
+  "impactLevel": "Medium",
+  "evidence": "6 of 10 users looked in Settings before finding Export in toolbar"
+}
+```
+
+### To Action:
+```json
+{
+  "title": "Add export shortcut to right-click context menu",
+  "description": "Users currently struggle to find the export function (6/10 looked in Settings first). Add export option to right-click context menu on data tables and also consider adding keyboard shortcut (Cmd+E).",
+  "priority": "Medium",
+  "department": "Design",
+  "effort": "Small",
+  "impact": "Medium",
+  "successMetrics": "Reduce 'where is export' support tickets by 50%. Track export discovery time in usability tests.",
+  "sourceInsight": "insight-export-discovery",
+  "status": "Not Started"
+}
+```
+
+## Grouping Related Actions
+
+When multiple insights point to the same solution, create one comprehensive action:
+
+### Multiple Insights:
+1. "Users forget to save before navigating away"
+2. "Lost work is top complaint in feedback"
+3. "Users manually save excessively out of fear"
+
+### Single Action:
+```json
+{
+  "title": "Implement auto-save with visual indicator",
+  "description": "Multiple research findings show users are anxious about losing work. Implement auto-save every 30 seconds with clear visual feedback showing save status. Include 'last saved' timestamp.",
+  "sourceInsight": "insight-save-anxiety, insight-lost-work, insight-manual-save"
+}
+```
+
+## Avoiding Over-Scoping
+
+❌ **Too Broad:** "Redesign the entire onboarding experience"
+✅ **Focused:** "Add progress indicator to onboarding wizard"
+
+❌ **Too Vague:** "Improve mobile experience"  
+✅ **Specific:** "Optimize checkout form for thumb-zone accessibility on mobile"
+
+❌ **Multiple Actions Bundled:** "Add notifications, improve settings, and update dashboard"
+✅ **Atomic:** One action per discrete change
