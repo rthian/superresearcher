@@ -43,7 +43,7 @@ node --version
 
 Clone or download this repo:
 ```bash
-git clone https://github.com/your-username/superresearcher.git
+git clone https://github.com/rthian/superresearcher.git
 cd superresearcher
 ```
 
