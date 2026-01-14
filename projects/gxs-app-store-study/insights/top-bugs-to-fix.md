@@ -1,4 +1,4 @@
-# GXS App – Top Bugs to Fix (from App Store / Play Store Reviews)
+g# GXS App – Top Bugs to Fix (from App Store / Play Store Reviews)
 
 **Study:** `gxs-app-store-study`  
 **Generated:** 2026-01-13  
