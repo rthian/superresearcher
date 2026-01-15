@@ -141,6 +141,42 @@ export async function readSurveys(projectName) {
 }
 
 /**
+ * Read all PDF reports from a project
+ */
+export async function readReports(projectName) {
+  const projectDir = getProjectDir(projectName);
+  const reportsDir = path.join(projectDir, 'context', 'reports');
+  
+  if (!await fs.pathExists(reportsDir)) {
+    return [];
+  }
+
+  const files = await fs.readdir(reportsDir);
+  const reports = [];
+
+  for (const file of files) {
+    if (file.endsWith('.pdf')) {
+      const filePath = path.join(reportsDir, file);
+      try {
+        const pdfParse = (await import('pdf-parse')).default;
+        const dataBuffer = await fs.readFile(filePath);
+        const data = await pdfParse(dataBuffer);
+        reports.push({ 
+          filename: file, 
+          type: 'pdf', 
+          content: data.text,
+          pages: data.numpages 
+        });
+      } catch (error) {
+        console.error(`Error reading PDF ${file}:`, error.message);
+      }
+    }
+  }
+
+  return reports;
+}
+
+/**
  * Read study metadata
  */
 export async function readStudyMetadata(projectName) {
