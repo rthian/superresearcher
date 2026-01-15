@@ -19,7 +19,7 @@ export async function writePrompt(projectName, promptType, content) {
 /**
  * Generate extraction prompt
  */
-export function generateExtractionPrompt(studyMetadata, methodology, transcripts, surveys) {
+export function generateExtractionPrompt(studyMetadata, methodology, transcripts, surveys, reports = []) {
   return `# Customer Insights Extraction
 
 You are analyzing research data to extract atomic, actionable customer insights.
@@ -44,6 +44,11 @@ ${surveys.length > 0
   ? surveys.map(s => `#### ${s.filename} (${s.type})\n\`\`\`${s.type}\n${typeof s.data === 'string' ? s.data : JSON.stringify(s.data, null, 2)}\n\`\`\``).join('\n\n')
   : 'No survey data available.'}
 
+### PDF Reports
+${reports.length > 0 
+  ? reports.map(r => `#### ${r.filename} (${r.pages} pages)\n\`\`\`\n${r.content}\n\`\`\``).join('\n\n')
+  : 'No PDF reports available.'}
+
 ---
 
 ## Your Task
@@ -58,7 +63,7 @@ Extract customer insights following these principles:
 ### 2. Evidence-Based
 - Every insight must cite supporting evidence
 - Include verbatim quotes when available
-- Note the source (transcript filename, survey question)
+- Note the source (transcript filename, survey question, PDF report)
 
 ### 3. Categorization
 Classify each insight into one of these categories:
@@ -97,7 +102,7 @@ Generate your insights in the following JSON structure. Write the output to \`in
       "impactLevel": "High | Medium | Low",
       "confidenceLevel": "High | Medium | Low",
       "evidence": "Verbatim quote or observation with source",
-      "source": "transcript/survey filename",
+      "source": "transcript/survey/report filename",
       "recommendedActions": "1-2 concrete suggestions",
       "productArea": "Onboarding | Core Features | Billing | etc.",
       "customerSegment": "Enterprise | Mid-Market | etc.",

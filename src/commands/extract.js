@@ -7,6 +7,7 @@ import {
   readMethodology,
   readTranscripts,
   readSurveys,
+  readReports,
   readProjectConfig
 } from '../utils/files.js';
 import { writePrompt, generateExtractionPrompt } from '../utils/prompts.js';
@@ -34,20 +35,22 @@ export async function extractCommand(project, options) {
     // Read project data
     spinner.text = 'Reading research data...';
     
-    const [studyMetadata, methodology, transcripts, surveys, config] = await Promise.all([
+    const [studyMetadata, methodology, transcripts, surveys, reports, config] = await Promise.all([
       readStudyMetadata(project),
       readMethodology(project),
       readTranscripts(project),
       readSurveys(project),
+      readReports(project),
       readProjectConfig(project)
     ]);
     
     // Validate we have data to process
-    if (transcripts.length === 0 && surveys.length === 0) {
+    if (transcripts.length === 0 && surveys.length === 0 && reports.length === 0) {
       spinner.fail('No research data found');
       console.log(chalk.yellow('\nAdd data to process:'));
       console.log(chalk.white(`  • Interview transcripts: ${chalk.cyan('context/transcripts/')}`));
       console.log(chalk.white(`  • Survey data: ${chalk.cyan('context/surveys/')}`));
+      console.log(chalk.white(`  • PDF reports: ${chalk.cyan('context/reports/')}`));
       process.exit(1);
     }
     
@@ -58,7 +61,8 @@ export async function extractCommand(project, options) {
       studyMetadata,
       methodology,
       transcripts,
-      surveys
+      surveys,
+      reports
     );
     
     // Write prompt file
@@ -70,6 +74,7 @@ export async function extractCommand(project, options) {
     console.log(chalk.dim('\nResearch data summary:'));
     console.log(chalk.white(`  • Transcripts: ${transcripts.length}`));
     console.log(chalk.white(`  • Surveys: ${surveys.length}`));
+    console.log(chalk.white(`  • PDF Reports: ${reports.length}`));
     console.log(chalk.white(`  • Study type: ${config?.type || 'Unknown'}`));
     console.log('');
     
