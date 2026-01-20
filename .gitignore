@@ -36,7 +36,26 @@ coverage/
 *.temp
 .prompts/*.bak
 
-# Large research files (optional - uncomment if needed)
-# projects/*/context/reports/*.pdf
-# projects/*/context/transcripts/*.mp3
-# projects/*/context/transcripts/*.mp4
+# Project data (keep studies private by default)
+projects/*/
+!projects/.gitkeep
+
+# Shared data (generated from studies)
+shared/personas/*.json
+shared/personas/*.md
+shared/themes/*.json
+shared/patterns/*.json
+shared/analysis/*.md
+shared/csat-responses.json
+shared/csat-state.json
+shared/research-suggestions.json
+!shared/**/.gitkeep
+
+# UI build output
+ui/dist/
+ui/node_modules/
+
+# Large research files
+projects/*/context/reports/*.pdf
+projects/*/context/transcripts/*.mp3
+projects/*/context/transcripts/*.mp4

@@ -1,0 +1,86 @@
+import express from 'express';
+import { getSharedDir, readSharedPersonas, writeSharedPersonas } from '../../src/utils/files.js';
+import fs from 'fs-extra';
+import path from 'path';
+
+const router = express.Router();
+
+// GET /api/personas - Get all personas
+router.get('/', async (req, res) => {
+  try {
+    const personasData = await readSharedPersonas();
+    res.json(personasData);
+  } catch (error) {
+    console.error('Error getting personas:', error);
+    res.status(500).json({ error: 'Failed to get personas' });
+  }
+});
+
+// PUT /api/personas - Update personas
+router.put('/', async (req, res) => {
+  try {
+    await writeSharedPersonas(req.body);
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error updating personas:', error);
+    res.status(500).json({ error: 'Failed to update personas' });
+  }
+});
+
+// POST /api/personas - Create new persona
+router.post('/', async (req, res) => {
+  try {
+    const personasData = await readSharedPersonas();
+    
+    if (!personasData.personas) {
+      personasData.personas = [];
+    }
+    
+    const newPersona = {
+      ...req.body,
+      lastUpdated: new Date().toISOString()
+    };
+    
+    personasData.personas.push(newPersona);
+    personasData.lastUpdated = new Date().toISOString();
+    
+    await writeSharedPersonas(personasData);
+    
+    res.json({ success: true, persona: newPersona });
+  } catch (error) {
+    console.error('Error creating persona:', error);
+    res.status(500).json({ error: 'Failed to create persona' });
+  }
+});
+
+// PUT /api/personas/:id - Update specific persona
+router.put('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const personasData = await readSharedPersonas();
+    
+    const personaIndex = personasData.personas.findIndex(p => p.id === id);
+    
+    if (personaIndex === -1) {
+      return res.status(404).json({ error: 'Persona not found' });
+    }
+    
+    personasData.personas[personaIndex] = {
+      ...personasData.personas[personaIndex],
+      ...req.body,
+      lastUpdated: new Date().toISOString()
+    };
+    
+    personasData.lastUpdated = new Date().toISOString();
+    
+    await writeSharedPersonas(personasData);
+    
+    res.json({ success: true, persona: personasData.personas[personaIndex] });
+  } catch (error) {
+    console.error('Error updating persona:', error);
+    res.status(500).json({ error: 'Failed to update persona' });
+  }
+});
+
+export default router;
+
