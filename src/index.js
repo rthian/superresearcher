@@ -12,6 +12,7 @@ import { auditCommand } from './commands/audit.js';
 import { syncCommand } from './commands/sync.js';
 import { doctorCommand } from './commands/doctor.js';
 import { analyzeCommand } from './commands/analyze.js';
+import { vocChunkToJsonCommand, vocConvertToChunksCommand } from './commands/voc.js';
 import { VERSION } from './config/constants.js';
 
 // Load environment variables
@@ -103,6 +104,25 @@ program
   .command('doctor')
   .description('Check if everything is set up correctly')
   .action(doctorCommand);
+
+// VoC commands
+const vocCommand = program
+  .command('voc')
+  .description('Voice of Customer (VoC) processing commands');
+
+vocCommand
+  .command('convert-to-chunks <input-file>')
+  .description('Convert app store review format to chunked format')
+  .option('--chunk-size <number>', 'Number of reviews per chunk (default: 20)', '20')
+  .option('--no-telemetry', 'Disable anonymous usage analytics')
+  .action(vocConvertToChunksCommand);
+
+vocCommand
+  .command('chunk-to-json <input-file>')
+  .description('Convert chunked app store verbatims to structured JSON')
+  .option('--agent', 'Run with Cursor Agent automatically')
+  .option('--no-telemetry', 'Disable anonymous usage analytics')
+  .action(vocChunkToJsonCommand);
 
 // Parse arguments
 program.parse();
