@@ -13,7 +13,7 @@ export async function serveCommand(options) {
       trackCommand('serve', { port: options.port });
     }
     
-    const port = options.port || 3000;
+    const port = parseInt(options.port, 10) || 3000;
     
     // Start the server
     await startServer(port);

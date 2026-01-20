@@ -110,7 +110,7 @@ program
 program
   .command('serve')
   .description('Start the web UI server')
-  .option('-p, --port <number>', 'Port number (default: 3000)', '3000')
+  .option('-p, --port <number>', 'Port number (default: 3000)', parseInt, 3000)
   .option('--no-browser', 'Don\'t open browser automatically')
   .option('--no-telemetry', 'Disable anonymous usage analytics')
   .action(serveCommand);

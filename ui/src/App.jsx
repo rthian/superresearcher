@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import Dashboard from './pages/Dashboard';
@@ -9,9 +10,23 @@ import PersonaGallery from './pages/PersonaGallery';
 import FeedbackInbox from './pages/FeedbackInbox';
 import SuggestionsBoard from './pages/SuggestionsBoard';
 import AdminAnalytics from './pages/AdminAnalytics';
+import { ShortcutHelp } from './components/ui/kbd';
+import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 
 function App() {
+  const [showShortcuts, setShowShortcuts] = useState(false);
+
+  // Register global shortcuts
+  useKeyboardShortcuts({
+    'cmd+/': () => setShowShortcuts(true),
+  });
+
   return (
+    <>
+      <ShortcutHelp 
+        isOpen={showShortcuts} 
+        onClose={() => setShowShortcuts(false)} 
+      />
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Dashboard />} />
@@ -25,6 +40,7 @@ function App() {
         <Route path="admin/analytics" element={<AdminAnalytics />} />
       </Route>
     </Routes>
+    </>
   );
 }
 
