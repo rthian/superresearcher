@@ -456,3 +456,91 @@ export async function writeGlobalConfig(config) {
   const configPath = path.join(process.cwd(), '.superresearcher', 'config.json');
   await fs.writeJson(configPath, config, { spaces: 2 });
 }
+
+/**
+ * Read CSAT metrics data
+ */
+export async function readCSATMetrics() {
+  const sharedDir = getSharedDir();
+  const csatPath = path.join(sharedDir, 'csat-metrics.json');
+  
+  if (await fs.pathExists(csatPath)) {
+    return fs.readJson(csatPath);
+  }
+  
+  // Return default structure if file doesn't exist
+  return {
+    lastUpdated: new Date().toISOString(),
+    dataCollectionCadence: 'quarterly',
+    targetTransitionDate: '2026-Q3',
+    scale: {
+      min: 1,
+      max: 10,
+      type: '10-point'
+    },
+    benchmarks: {
+      farBelow: -3, // < -3 SD
+      missed: -2,   // < -2 SD
+      target: 0,    // Within ±2 SD
+      exceed: 2,    // > +2 SD
+      outshied: 3   // > +3 SD
+    },
+    alertThresholds: {
+      csatMinimum: 7.0,  // 10-point scale
+      qoqDropThreshold: -0.3,
+      yoyDropThreshold: -0.5
+    },
+    dimensions: [
+      { id: 'bank-csat', name: 'Customer Satisfaction (Bank)', label: 'Bank CSAT', primary: true },
+      { id: 'product-quality', name: 'Product Quality', label: 'Product Quality' },
+      { id: 'service-quality', name: 'Service Quality', label: 'Service Quality' },
+      { id: 'trust', name: 'Trust', label: 'Trust' },
+      { id: 'customer-expectations', name: 'Customer Expectations', label: 'Customer Expectations' },
+      { id: 'information-clarity', name: 'Information Clarity', label: 'Information Clarity' },
+      { id: 'security-assurance', name: 'Security Assurance', label: 'Security Assurance' },
+      { id: 'value', name: 'Value', label: 'Value' }
+    ],
+    periods: [],
+    scorecardExports: []
+  };
+}
+
+/**
+ * Write CSAT metrics data
+ */
+export async function writeCSATMetrics(data) {
+  const sharedDir = getSharedDir();
+  await fs.ensureDir(sharedDir);
+  const csatPath = path.join(sharedDir, 'csat-metrics.json');
+  await fs.writeJson(csatPath, data, { spaces: 2 });
+}
+
+/**
+ * Parse CSV upload for CSAT/NPS data
+ */
+export async function parseCSATCSV(filePath) {
+  // Simple CSV parser for CSAT data
+  // Expected columns: period, organization, dimension, product, score, responses, survey_question, verbatim
+  const content = await fs.readFile(filePath, 'utf-8');
+  const lines = content.trim().split('\n');
+  
+  if (lines.length < 2) {
+    throw new Error('CSV file must contain header and at least one data row');
+  }
+  
+  const headers = lines[0].split(',').map(h => h.trim());
+  const data = [];
+  
+  for (let i = 1; i < lines.length; i++) {
+    const values = lines[i].split(',');
+    const row = {};
+    
+    headers.forEach((header, index) => {
+      row[header] = values[index]?.trim() || '';
+    });
+    
+    data.push(row);
+  }
+  
+  return data;
+}

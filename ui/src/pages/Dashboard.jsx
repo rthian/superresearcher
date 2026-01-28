@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 import { statsAPI } from '../api/stats';
-import { FiFolder, FiZap, FiCheckSquare, FiUsers } from 'react-icons/fi';
+import { csatAPI } from '../api/csat';
+import { FiFolder, FiZap, FiCheckSquare, FiUsers, FiSmile, FiTrendingUp, FiArrowRight } from 'react-icons/fi';
 
 // Static color mapping for Tailwind CSS
 const colorClasses = {
@@ -20,12 +22,39 @@ const colorClasses = {
     bg: 'bg-purple-100',
     text: 'text-purple-600',
   },
+  teal: {
+    bg: 'bg-teal-100',
+    text: 'text-teal-600',
+  },
+  indigo: {
+    bg: 'bg-indigo-100',
+    text: 'text-indigo-600',
+  },
 };
 
 function Dashboard() {
   const { data: stats, isLoading } = useQuery({
     queryKey: ['stats'],
     queryFn: () => statsAPI.getDashboard(),
+  });
+  
+  const { data: csatData } = useQuery({
+    queryKey: ['csat-summary'],
+    queryFn: async () => {
+      try {
+        const data = await csatAPI.getMetrics();
+        const latestPeriod = data.periods?.[data.periods.length - 1];
+        return {
+          csat: latestPeriod?.bankWide?.csat?.score || null,
+          csatChange: latestPeriod?.bankWide?.csat?.qoqChange || null,
+          nps: latestPeriod?.bankWide?.nps?.score || null,
+          npsChange: latestPeriod?.bankWide?.nps?.qoqChange || null,
+          period: latestPeriod?.period || null
+        };
+      } catch (error) {
+        return { csat: null, nps: null };
+      }
+    }
   });
 
   if (isLoading) {
@@ -41,6 +70,24 @@ function Dashboard() {
     { label: 'Insights', value: stats?.totalInsights || 0, icon: FiZap, color: 'yellow' },
     { label: 'Actions', value: stats?.totalActions || 0, icon: FiCheckSquare, color: 'green' },
     { label: 'Personas', value: stats?.totalPersonas || 0, icon: FiUsers, color: 'purple' },
+    { 
+      label: 'Bank CSAT', 
+      value: csatData?.csat ? csatData.csat.toFixed(1) : 'N/A', 
+      icon: FiSmile, 
+      color: 'teal',
+      trend: csatData?.csatChange,
+      link: '/csat'
+    },
+    { 
+      label: 'NPS', 
+      value: csatData?.nps !== null && csatData?.nps !== undefined 
+        ? (csatData.nps >= 0 ? `+${csatData.nps}` : csatData.nps) 
+        : 'N/A', 
+      icon: FiTrendingUp, 
+      color: 'indigo',
+      trend: csatData?.npsChange,
+      link: '/csat'
+    },
   ];
 
   return (
@@ -51,20 +98,40 @@ function Dashboard() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {statCards.map((stat) => {
           const colors = colorClasses[stat.color] || colorClasses.blue;
-          return (
-            <div key={stat.label} className="card">
-              <div className="flex items-center">
-                <div className={`p-3 ${colors.bg} rounded-lg`}>
-                  <stat.icon className={`w-6 h-6 ${colors.text}`} />
+          const CardContent = (
+            <div className="card hover:shadow-md transition-shadow">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <div className={`p-3 ${colors.bg} rounded-lg`}>
+                    <stat.icon className={`w-6 h-6 ${colors.text}`} />
+                  </div>
+                  <div className="ml-4">
+                    <p className="text-sm font-medium text-gray-600">{stat.label}</p>
+                    <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+                    {stat.trend !== null && stat.trend !== undefined && (
+                      <p className={`text-xs font-medium mt-1 ${stat.trend >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                        {stat.trend >= 0 ? '+' : ''}{typeof stat.trend === 'number' ? stat.trend.toFixed(2) : stat.trend} QoQ
+                      </p>
+                    )}
+                  </div>
                 </div>
-                <div className="ml-4">
-                  <p className="text-sm font-medium text-gray-600">{stat.label}</p>
-                  <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
-                </div>
+                {stat.link && (
+                  <FiArrowRight className="w-5 h-5 text-gray-400" />
+                )}
               </div>
+            </div>
+          );
+          
+          return stat.link ? (
+            <Link key={stat.label} to={stat.link}>
+              {CardContent}
+            </Link>
+          ) : (
+            <div key={stat.label}>
+              {CardContent}
             </div>
           );
         })}

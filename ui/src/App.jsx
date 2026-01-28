@@ -8,6 +8,7 @@ import InsightsExplorer from './pages/InsightsExplorer';
 import ActionCenter from './pages/ActionCenter';
 import PersonaGallery from './pages/PersonaGallery';
 import PersonaDetail from './pages/PersonaDetail';
+import CSATDashboard from './pages/CSATDashboard';
 import FeedbackInbox from './pages/FeedbackInbox';
 import SuggestionsBoard from './pages/SuggestionsBoard';
 import AdminAnalytics from './pages/AdminAnalytics';
@@ -37,6 +38,7 @@ function App() {
         <Route path="actions" element={<ActionCenter />} />
         <Route path="personas" element={<PersonaGallery />} />
         <Route path="personas/:id" element={<PersonaDetail />} />
+        <Route path="csat" element={<CSATDashboard />} />
         <Route path="feedback" element={<FeedbackInbox />} />
         <Route path="suggestions" element={<SuggestionsBoard />} />
         <Route path="admin/analytics" element={<AdminAnalytics />} />

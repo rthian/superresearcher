@@ -4,7 +4,8 @@ import {
   FiFolder, 
   FiZap, 
   FiCheckSquare, 
-  FiUsers, 
+  FiUsers,
+  FiBarChart2,
   FiMessageSquare,
   FiTrendingUp 
 } from 'react-icons/fi';
@@ -15,6 +16,7 @@ const navigation = [
   { name: 'Insights', href: '/insights', icon: FiZap },
   { name: 'Actions', href: '/actions', icon: FiCheckSquare },
   { name: 'Personas', href: '/personas', icon: FiUsers },
+  { name: 'CSAT & NPS', href: '/csat', icon: FiBarChart2 },
   { name: 'Feedback', href: '/feedback', icon: FiMessageSquare, badge: 0 },
   { name: 'Suggestions', href: '/suggestions', icon: FiTrendingUp },
 ];
