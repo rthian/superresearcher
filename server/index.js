@@ -21,6 +21,15 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Debug endpoint
+app.get('/api/debug/info', (req, res) => {
+  res.json({
+    cwd: process.cwd(),
+    projectsPath: path.join(process.cwd(), 'projects'),
+    nodeEnv: process.env.NODE_ENV
+  });
+});
+
 // API Routes
 app.use('/api/projects', projectsRouter);
 app.use('/api/insights', insightsRouter);

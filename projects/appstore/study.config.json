@@ -1,0 +1,20 @@
+{
+  "id": "3737ebec-3989-4bad-b4b4-f347a6e2f11c",
+  "name": "Appstore",
+  "slug": "appstore",
+  "type": "interview",
+  "createdAt": "2026-01-20T02:33:43.679Z",
+  "updatedAt": "2026-01-20T02:33:43.679Z",
+  "status": "Planning",
+  "notion": {
+    "enabled": false,
+    "studyPageId": null,
+    "insightsDatabaseId": null
+  },
+  "metadata": {
+    "participants": 0,
+    "startDate": null,
+    "endDate": null,
+    "owner": null
+  }
+}

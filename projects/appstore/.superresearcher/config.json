@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0",
+  "telemetry": true,
+  "notion": {
+    "enabled": false,
+    "apiKey": null,
+    "databases": {}
+  },
+  "defaults": {
+    "studyType": "interview",
+    "outputFormat": "both"
+  }
+}

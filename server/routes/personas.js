@@ -16,6 +16,25 @@ router.get('/', async (req, res) => {
   }
 });
 
+// GET /api/personas/:id - Get specific persona by ID
+router.get('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const personasData = await readSharedPersonas();
+    
+    const persona = personasData.personas?.find(p => p.id === id);
+    
+    if (!persona) {
+      return res.status(404).json({ error: 'Persona not found' });
+    }
+    
+    res.json({ persona });
+  } catch (error) {
+    console.error('Error getting persona:', error);
+    res.status(500).json({ error: 'Failed to get persona' });
+  }
+});
+
 // PUT /api/personas - Update personas
 router.put('/', async (req, res) => {
   try {
