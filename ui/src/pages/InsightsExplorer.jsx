@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useSearchParams } from 'react-router-dom';
 import { insightsAPI } from '../api/insights';
 import { FiDownload } from 'react-icons/fi';
 import { exportInsights, exportToJSON } from '../utils/export';
@@ -7,7 +8,14 @@ import { CATEGORY_COLORS } from '../utils/constants';
 import toast from 'react-hot-toast';
 
 function InsightsExplorer() {
-  const [filterCategory, setFilterCategory] = useState('all');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [filterCategory, setFilterCategory] = useState(searchParams.get('category') || 'all');
+  const [filterImpact, setFilterImpact] = useState(searchParams.get('impact') || 'all');
+  const [filterProject, setFilterProject] = useState(searchParams.get('project') || 'all');
+  const [filterOrganization, setFilterOrganization] = useState(searchParams.get('org') || 'all');
+  const [filterInsightIds, setFilterInsightIds] = useState(
+    searchParams.get('ids') ? searchParams.get('ids').split(',') : []
+  );
   const [searchTerm, setSearchTerm] = useState('');
   
   const { data, isLoading, error } = useQuery({
@@ -17,21 +25,59 @@ function InsightsExplorer() {
 
   const insights = data?.insights || [];
 
+  // Update URL params when filters change
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (filterCategory !== 'all') params.set('category', filterCategory);
+    if (filterImpact !== 'all') params.set('impact', filterImpact);
+    if (filterProject !== 'all') params.set('project', filterProject);
+    if (filterOrganization !== 'all') params.set('org', filterOrganization);
+    if (filterInsightIds.length > 0) params.set('ids', filterInsightIds.join(','));
+    setSearchParams(params, { replace: true });
+  }, [filterCategory, filterImpact, filterProject, filterOrganization, filterInsightIds, setSearchParams]);
+
   // Apply filters
-  let filteredInsights = insights;
+  let filteredInsights = [...insights];
   
+  // Filter by specific insight IDs if provided (from persona page)
+  if (filterInsightIds.length > 0) {
+    filteredInsights = filteredInsights.filter(i => filterInsightIds.includes(i.id));
+  }
+  
+  // Filter by category
   if (filterCategory !== 'all') {
     filteredInsights = filteredInsights.filter(i => i.category === filterCategory);
   }
   
+  // Filter by impact level
+  if (filterImpact !== 'all') {
+    filteredInsights = filteredInsights.filter(i => i.impactLevel === filterImpact);
+  }
+  
+  // Filter by project
+  if (filterProject !== 'all') {
+    filteredInsights = filteredInsights.filter(i => i.projectSlug === filterProject);
+  }
+  
+  // Filter by organization
+  if (filterOrganization !== 'all') {
+    filteredInsights = filteredInsights.filter(i => i.organization === filterOrganization);
+  }
+  
+  // Filter by search term
   if (searchTerm) {
     filteredInsights = filteredInsights.filter(i =>
-      i.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      i.evidence?.toLowerCase().includes(searchTerm.toLowerCase())
+      i.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      i.evidence?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      i.recommendedActions?.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }
 
-  const categories = ['all', ...new Set(insights.map(i => i.category))];
+  // Get unique values for filters
+  const categories = ['all', ...new Set(insights.map(i => i.category).filter(Boolean))];
+  const impactLevels = ['all', ...new Set(insights.map(i => i.impactLevel).filter(Boolean))];
+  const projects = ['all', ...new Set(insights.map(i => i.projectSlug).filter(Boolean))];
+  const organizations = ['all', ...new Set(insights.map(i => i.organization).filter(Boolean))];
 
   const handleExport = (format) => {
     if (filteredInsights.length === 0) {
@@ -91,22 +137,159 @@ function InsightsExplorer() {
       </div>
 
       {/* Filters */}
-      <div className="card">
-        <h3 className="font-medium text-gray-900 mb-3">Filter by Category</h3>
-        <div className="flex flex-wrap gap-2">
-          {categories.map((cat) => (
+      <div className="card space-y-4">
+        {/* Active Filters Summary */}
+        {(filterCategory !== 'all' || filterImpact !== 'all' || filterProject !== 'all' || filterOrganization !== 'all' || filterInsightIds.length > 0) && (
+          <div className="flex items-center gap-2 pb-3 border-b border-gray-200 flex-wrap">
+            <span className="text-sm text-gray-600">Active filters:</span>
+            {filterOrganization !== 'all' && (
+              <span className="badge bg-blue-100 text-blue-700 font-semibold">
+                🏢 {filterOrganization}
+                <button
+                  onClick={() => setFilterOrganization('all')}
+                  className="ml-1 hover:text-blue-900"
+                >
+                  ×
+                </button>
+              </span>
+            )}
+            {filterCategory !== 'all' && (
+              <span className="badge bg-primary-100 text-primary-700">
+                Category: {filterCategory}
+                <button
+                  onClick={() => setFilterCategory('all')}
+                  className="ml-1 hover:text-primary-900"
+                >
+                  ×
+                </button>
+              </span>
+            )}
+            {filterImpact !== 'all' && (
+              <span className="badge bg-primary-100 text-primary-700">
+                Impact: {filterImpact}
+                <button
+                  onClick={() => setFilterImpact('all')}
+                  className="ml-1 hover:text-primary-900"
+                >
+                  ×
+                </button>
+              </span>
+            )}
+            {filterProject !== 'all' && (
+              <span className="badge bg-primary-100 text-primary-700">
+                Project: {filterProject}
+                <button
+                  onClick={() => setFilterProject('all')}
+                  className="ml-1 hover:text-primary-900"
+                >
+                  ×
+                </button>
+              </span>
+            )}
+            {filterInsightIds.length > 0 && (
+              <span className="badge bg-primary-100 text-primary-700">
+                {filterInsightIds.length} specific insights
+                <button
+                  onClick={() => setFilterInsightIds([])}
+                  className="ml-1 hover:text-primary-900"
+                >
+                  ×
+                </button>
+              </span>
+            )}
             <button
-              key={cat}
-              onClick={() => setFilterCategory(cat)}
-              className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
-                filterCategory === cat
-                  ? 'bg-primary-100 text-primary-700'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
+              onClick={() => {
+                setFilterCategory('all');
+                setFilterImpact('all');
+                setFilterProject('all');
+                setFilterOrganization('all');
+                setFilterInsightIds([]);
+              }}
+              className="text-sm text-gray-600 hover:text-gray-900 underline ml-auto"
             >
-              {cat === 'all' ? 'All' : cat}
+              Clear all
             </button>
-          ))}
+          </div>
+        )}
+
+        {/* Organization Filter */}
+        <div>
+          <h3 className="font-medium text-gray-900 mb-2 text-sm">🏢 Organization</h3>
+          <div className="flex flex-wrap gap-2">
+            {organizations.map((org) => (
+              <button
+                key={org}
+                onClick={() => setFilterOrganization(org)}
+                className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
+                  filterOrganization === org
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                {org === 'all' ? 'All Organizations' : org}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Category Filter */}
+        <div>
+          <h3 className="font-medium text-gray-900 mb-2 text-sm">Category</h3>
+          <div className="flex flex-wrap gap-2">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setFilterCategory(cat)}
+                className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
+                  filterCategory === cat
+                    ? 'bg-primary-600 text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                {cat === 'all' ? 'All Categories' : cat}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Impact Level Filter */}
+        <div>
+          <h3 className="font-medium text-gray-900 mb-2 text-sm">Impact Level</h3>
+          <div className="flex flex-wrap gap-2">
+            {impactLevels.map((level) => (
+              <button
+                key={level}
+                onClick={() => setFilterImpact(level)}
+                className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
+                  filterImpact === level
+                    ? 'bg-primary-600 text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                {level === 'all' ? 'All Levels' : level}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Project Filter */}
+        <div>
+          <h3 className="font-medium text-gray-900 mb-2 text-sm">Project</h3>
+          <div className="flex flex-wrap gap-2">
+            {projects.map((proj) => (
+              <button
+                key={proj}
+                onClick={() => setFilterProject(proj)}
+                className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
+                  filterProject === proj
+                    ? 'bg-primary-600 text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                {proj === 'all' ? 'All Projects' : proj}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -117,6 +300,11 @@ function InsightsExplorer() {
             <div className="mb-3">
               <h3 className="font-medium text-gray-900 mb-2">{insight.title}</h3>
               <div className="flex flex-wrap gap-2">
+                {insight.organization && (
+                  <span className="badge bg-blue-100 text-blue-800 font-semibold">
+                    🏢 {insight.organization}
+                  </span>
+                )}
                 <span className={`badge ${CATEGORY_COLORS[insight.category] || 'bg-gray-100 text-gray-800'}`}>
                   {insight.category}
                 </span>

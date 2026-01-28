@@ -3,6 +3,7 @@
   "name": "Appstore",
   "slug": "appstore",
   "type": "interview",
+  "organization": "GXS",
   "createdAt": "2026-01-20T02:33:43.679Z",
   "updatedAt": "2026-01-20T02:33:43.679Z",
   "status": "Planning",

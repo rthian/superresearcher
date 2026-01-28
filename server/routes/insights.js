@@ -14,12 +14,24 @@ router.get('/', async (req, res) => {
     for (const projectSlug of projects) {
       try {
         const insightsData = await readInsights(projectSlug);
+        
+        // Read project config to get organization
+        const projectDir = getProjectDir(projectSlug);
+        const configPath = path.join(projectDir, 'study.config.json');
+        let organization = null;
+        
+        if (await fs.pathExists(configPath)) {
+          const config = await fs.readJson(configPath);
+          organization = config.organization || null;
+        }
+        
         if (insightsData.insights && Array.isArray(insightsData.insights)) {
-          // Add project context to each insight
+          // Add project context and organization to each insight
           const enrichedInsights = insightsData.insights.map(insight => ({
             ...insight,
             projectSlug,
-            studyId: insightsData.studyId
+            studyId: insightsData.studyId,
+            organization
           }));
           allInsights.push(...enrichedInsights);
         }

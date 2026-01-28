@@ -14,12 +14,24 @@ router.get('/', async (req, res) => {
     for (const projectSlug of projects) {
       try {
         const actionsData = await readActions(projectSlug);
+        
+        // Read project config to get organization
+        const projectDir = getProjectDir(projectSlug);
+        const configPath = path.join(projectDir, 'study.config.json');
+        let organization = null;
+        
+        if (await fs.pathExists(configPath)) {
+          const config = await fs.readJson(configPath);
+          organization = config.organization || null;
+        }
+        
         if (actionsData.actions && Array.isArray(actionsData.actions)) {
-          // Add project context to each action
+          // Add project context and organization to each action
           const enrichedActions = actionsData.actions.map(action => ({
             ...action,
             projectSlug,
-            studyId: actionsData.studyId
+            studyId: actionsData.studyId,
+            organization
           }));
           allActions.push(...enrichedActions);
         }

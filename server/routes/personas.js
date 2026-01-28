@@ -9,6 +9,35 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   try {
     const personasData = await readSharedPersonas();
+    
+    // Enrich personas with organization from their source projects
+    if (personasData.personas && Array.isArray(personasData.personas)) {
+      const enrichedPersonas = await Promise.all(
+        personasData.personas.map(async (persona) => {
+          // Try to find organization from studyId if available
+          if (persona.studyId) {
+            try {
+              const projectDir = getProjectDir(persona.studyId);
+              const configPath = path.join(projectDir, 'study.config.json');
+              
+              if (await fs.pathExists(configPath)) {
+                const config = await fs.readJson(configPath);
+                return {
+                  ...persona,
+                  organization: config.organization || null
+                };
+              }
+            } catch (err) {
+              console.error(`Error reading config for ${persona.studyId}:`, err);
+            }
+          }
+          return persona;
+        })
+      );
+      
+      personasData.personas = enrichedPersonas;
+    }
+    
     res.json(personasData);
   } catch (error) {
     console.error('Error getting personas:', error);

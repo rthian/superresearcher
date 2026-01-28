@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 
 function ActionCenter() {
   const [filterStatus, setFilterStatus] = useState('all');
+  const [filterOrganization, setFilterOrganization] = useState('all');
   const { data, isLoading } = useQuery({
     queryKey: ['actions-all'],
     queryFn: () => actionsAPI.listAll(),
@@ -16,11 +17,18 @@ function ActionCenter() {
   const actions = data?.actions || [];
 
   // Filter actions
-  const filteredActions = filterStatus === 'all'
-    ? actions
-    : actions.filter(a => a.status === filterStatus);
+  let filteredActions = [...actions];
+  
+  if (filterStatus !== 'all') {
+    filteredActions = filteredActions.filter(a => a.status === filterStatus);
+  }
+  
+  if (filterOrganization !== 'all') {
+    filteredActions = filteredActions.filter(a => a.organization === filterOrganization);
+  }
 
   const statuses = ['all', 'Not Started', 'In Progress', 'Blocked', 'Complete'];
+  const organizations = ['all', ...new Set(actions.map(a => a.organization).filter(Boolean))];
 
   const handleExport = () => {
     if (filteredActions.length === 0) {
@@ -52,23 +60,46 @@ function ActionCenter() {
         </button>
       </div>
 
-      {/* Status Filter */}
-      <div className="card">
-        <h3 className="font-medium text-gray-900 mb-3">Filter by Status</h3>
-        <div className="flex flex-wrap gap-2">
-          {statuses.map((status) => (
-            <button
-              key={status}
-              onClick={() => setFilterStatus(status)}
-              className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
-                filterStatus === status
-                  ? 'bg-primary-100 text-primary-700'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              {status === 'all' ? 'All' : status}
-            </button>
-          ))}
+      {/* Filters */}
+      <div className="card space-y-4">
+        {/* Organization Filter */}
+        <div>
+          <h3 className="font-medium text-gray-900 mb-2 text-sm">🏢 Organization</h3>
+          <div className="flex flex-wrap gap-2">
+            {organizations.map((org) => (
+              <button
+                key={org}
+                onClick={() => setFilterOrganization(org)}
+                className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
+                  filterOrganization === org
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                {org === 'all' ? 'All Organizations' : org}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Status Filter */}
+        <div>
+          <h3 className="font-medium text-gray-900 mb-2 text-sm">Status</h3>
+          <div className="flex flex-wrap gap-2">
+            {statuses.map((status) => (
+              <button
+                key={status}
+                onClick={() => setFilterStatus(status)}
+                className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
+                  filterStatus === status
+                    ? 'bg-primary-600 text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                {status === 'all' ? 'All Statuses' : status}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -76,7 +107,14 @@ function ActionCenter() {
         {filteredActions.map((action) => (
           <div key={action.id} className="card hover:shadow-md transition-shadow">
             <div className="flex items-start justify-between mb-3">
-              <h3 className="font-medium text-gray-900 flex-1">{action.title}</h3>
+              <div className="flex-1">
+                <h3 className="font-medium text-gray-900">{action.title}</h3>
+                {action.organization && (
+                  <span className="badge bg-blue-100 text-blue-800 font-semibold text-xs mt-1">
+                    🏢 {action.organization}
+                  </span>
+                )}
+              </div>
               <div className="flex gap-2">
                 <span className={`badge ${PRIORITY_COLORS[action.priority]}`}>
                   {action.priority}

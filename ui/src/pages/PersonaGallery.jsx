@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { personasAPI } from '../api/personas';
@@ -5,13 +6,29 @@ import { FiUsers, FiArrowRight } from 'react-icons/fi';
 
 function PersonaGallery() {
   const navigate = useNavigate();
+  const [filterOrganization, setFilterOrganization] = useState('all');
+  const [filterType, setFilterType] = useState('all');
   
   const { data, isLoading } = useQuery({
     queryKey: ['personas'],
     queryFn: () => personasAPI.list(),
   });
 
-  const personas = data?.personas || [];
+  const allPersonas = data?.personas || [];
+  
+  // Apply filters
+  let personas = [...allPersonas];
+  
+  if (filterOrganization !== 'all') {
+    personas = personas.filter(p => p.organization === filterOrganization);
+  }
+  
+  if (filterType !== 'all') {
+    personas = personas.filter(p => p.type === filterType);
+  }
+  
+  const organizations = ['all', ...new Set(allPersonas.map(p => p.organization).filter(Boolean))];
+  const types = ['all', ...new Set(allPersonas.map(p => p.type).filter(Boolean))];
 
   const getTypeColor = (type) => {
     switch (type?.toLowerCase()) {
@@ -34,7 +51,50 @@ function PersonaGallery() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold text-gray-900">Persona Gallery</h1>
-        <p className="mt-2 text-gray-600">Customer personas based on research insights</p>
+        <p className="mt-2 text-gray-600">{personas.length} customer personas based on research insights</p>
+      </div>
+
+      {/* Filters */}
+      <div className="card space-y-4">
+        {/* Organization Filter */}
+        <div>
+          <h3 className="font-medium text-gray-900 mb-2 text-sm">🏢 Organization</h3>
+          <div className="flex flex-wrap gap-2">
+            {organizations.map((org) => (
+              <button
+                key={org}
+                onClick={() => setFilterOrganization(org)}
+                className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
+                  filterOrganization === org
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                {org === 'all' ? 'All Organizations' : org}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Type Filter */}
+        <div>
+          <h3 className="font-medium text-gray-900 mb-2 text-sm">Persona Type</h3>
+          <div className="flex flex-wrap gap-2">
+            {types.map((type) => (
+              <button
+                key={type}
+                onClick={() => setFilterType(type)}
+                className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
+                  filterType === type
+                    ? 'bg-primary-600 text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                {type === 'all' ? 'All Types' : type}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
       {personas.length === 0 ? (
@@ -59,9 +119,16 @@ function PersonaGallery() {
                   <h3 className="font-semibold text-gray-900 group-hover:text-primary-600 transition-colors">
                     {persona.name}
                   </h3>
-                  <span className={`badge ${getTypeColor(persona.type)} text-xs`}>
-                    {persona.type}
-                  </span>
+                  <div className="flex flex-wrap gap-1 mt-1">
+                    {persona.organization && (
+                      <span className="badge bg-blue-100 text-blue-800 font-semibold text-xs">
+                        🏢 {persona.organization}
+                      </span>
+                    )}
+                    <span className={`badge ${getTypeColor(persona.type)} text-xs`}>
+                      {persona.type}
+                    </span>
+                  </div>
                 </div>
               </div>
               
