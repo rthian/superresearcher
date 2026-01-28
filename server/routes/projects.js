@@ -16,6 +16,7 @@ const router = express.Router();
 // GET /api/projects - List all projects
 router.get('/', async (req, res) => {
   try {
+    const { includeArchived } = req.query;
     const projects = await listProjects();
     
     // Enrich with metadata
@@ -65,7 +66,12 @@ router.get('/', async (req, res) => {
       })
     );
     
-    res.json({ projects: enrichedProjects });
+    // Filter out archived projects unless explicitly requested
+    const filteredProjects = includeArchived === 'true'
+      ? enrichedProjects
+      : enrichedProjects.filter(p => p.status !== 'Archived' && p.archived !== true);
+    
+    res.json({ projects: filteredProjects });
   } catch (error) {
     console.error('Error listing projects:', error);
     res.status(500).json({ error: 'Failed to list projects' });
@@ -235,6 +241,60 @@ router.get('/:slug/feedback', async (req, res) => {
   } catch (error) {
     console.error('Error getting project feedback:', error);
     res.status(500).json({ error: 'Failed to get feedback' });
+  }
+});
+
+// POST /api/projects/:slug/archive - Archive a project
+router.post('/:slug/archive', async (req, res) => {
+  try {
+    const { slug } = req.params;
+    
+    if (!await projectExists(slug)) {
+      return res.status(404).json({ error: 'Project not found' });
+    }
+    
+    const currentConfig = await readProjectConfig(slug);
+    const updatedConfig = {
+      ...currentConfig,
+      status: 'Archived',
+      archived: true,
+      archivedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    
+    await writeProjectConfig(slug, updatedConfig);
+    
+    res.json({ success: true, config: updatedConfig });
+  } catch (error) {
+    console.error('Error archiving project:', error);
+    res.status(500).json({ error: 'Failed to archive project' });
+  }
+});
+
+// POST /api/projects/:slug/unarchive - Unarchive a project
+router.post('/:slug/unarchive', async (req, res) => {
+  try {
+    const { slug } = req.params;
+    
+    if (!await projectExists(slug)) {
+      return res.status(404).json({ error: 'Project not found' });
+    }
+    
+    const currentConfig = await readProjectConfig(slug);
+    const updatedConfig = {
+      ...currentConfig,
+      status: 'Active',
+      archived: false,
+      archivedAt: null,
+      updatedAt: new Date().toISOString()
+    };
+    
+    await writeProjectConfig(slug, updatedConfig);
+    
+    res.json({ success: true, config: updatedConfig });
+  } catch (error) {
+    console.error('Error unarchiving project:', error);
+    res.status(500).json({ error: 'Failed to unarchive project' });
   }
 });
 

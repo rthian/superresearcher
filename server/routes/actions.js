@@ -8,6 +8,7 @@ const router = express.Router();
 // GET /api/actions - Get all actions across all projects
 router.get('/', async (req, res) => {
   try {
+    const { includeArchived } = req.query;
     const projects = await listProjects();
     const allActions = [];
     
@@ -15,14 +16,21 @@ router.get('/', async (req, res) => {
       try {
         const actionsData = await readActions(projectSlug);
         
-        // Read project config to get organization
+        // Read project config to get organization and archived status
         const projectDir = getProjectDir(projectSlug);
         const configPath = path.join(projectDir, 'study.config.json');
         let organization = null;
+        let isArchived = false;
         
         if (await fs.pathExists(configPath)) {
           const config = await fs.readJson(configPath);
           organization = config.organization || null;
+          isArchived = config.archived === true || config.status === 'Archived';
+        }
+        
+        // Skip archived projects unless explicitly requested
+        if (isArchived && includeArchived !== 'true') {
+          continue;
         }
         
         if (actionsData.actions && Array.isArray(actionsData.actions)) {
@@ -31,7 +39,8 @@ router.get('/', async (req, res) => {
             ...action,
             projectSlug,
             studyId: actionsData.studyId,
-            organization
+            organization,
+            archived: isArchived
           }));
           allActions.push(...enrichedActions);
         }

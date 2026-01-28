@@ -8,13 +8,14 @@ const router = express.Router();
 // GET /api/personas - Get all personas
 router.get('/', async (req, res) => {
   try {
+    const { includeArchived } = req.query;
     const personasData = await readSharedPersonas();
     
-    // Enrich personas with organization from their source projects
+    // Enrich personas with organization and archived status from their source projects
     if (personasData.personas && Array.isArray(personasData.personas)) {
       const enrichedPersonas = await Promise.all(
         personasData.personas.map(async (persona) => {
-          // Try to find organization from studyId if available
+          // Try to find organization and archived status from studyId if available
           if (persona.studyId) {
             try {
               const projectDir = getProjectDir(persona.studyId);
@@ -24,7 +25,8 @@ router.get('/', async (req, res) => {
                 const config = await fs.readJson(configPath);
                 return {
                   ...persona,
-                  organization: config.organization || null
+                  organization: config.organization || null,
+                  archived: config.archived === true || config.status === 'Archived'
                 };
               }
             } catch (err) {
@@ -35,7 +37,12 @@ router.get('/', async (req, res) => {
         })
       );
       
-      personasData.personas = enrichedPersonas;
+      // Filter out personas from archived projects unless explicitly requested
+      const filteredPersonas = includeArchived === 'true'
+        ? enrichedPersonas
+        : enrichedPersonas.filter(p => !p.archived);
+      
+      personasData.personas = filteredPersonas;
     }
     
     res.json(personasData);
