@@ -5,8 +5,8 @@
   "type": "interview",
   "organization": "GXS",
   "createdAt": "2026-01-20T02:33:43.679Z",
-  "updatedAt": "2026-01-20T02:33:43.679Z",
-  "status": "Planning",
+  "updatedAt": "2026-01-28T10:02:45.522Z",
+  "status": "Archived",
   "notion": {
     "enabled": false,
     "studyPageId": null,
@@ -17,5 +17,7 @@
     "startDate": null,
     "endDate": null,
     "owner": null
-  }
+  },
+  "archived": true,
+  "archivedAt": "2026-01-28T10:02:45.522Z"
 }
