@@ -1,80 +1,138 @@
 import express from 'express';
-import { getSharedDir, readSharedPersonas, writeSharedPersonas } from '../../src/utils/files.js';
+import { getProjectDir, listProjects } from '../../src/utils/files.js';
 import fs from 'fs-extra';
 import path from 'path';
 
 const router = express.Router();
 
-// GET /api/personas - Get all personas
+// GET /api/personas - Get all personas from all projects
 router.get('/', async (req, res) => {
   try {
     const { includeArchived } = req.query;
-    const personasData = await readSharedPersonas();
+    const projects = await listProjects();
+    const allPersonas = [];
     
-    // Enrich personas with organization and archived status from their source projects
-    if (personasData.personas && Array.isArray(personasData.personas)) {
-      const enrichedPersonas = await Promise.all(
-        personasData.personas.map(async (persona) => {
-          // Try to find organization and archived status from studyId if available
-          if (persona.studyId) {
-            try {
-              const projectDir = getProjectDir(persona.studyId);
-              const configPath = path.join(projectDir, 'study.config.json');
-              
-              if (await fs.pathExists(configPath)) {
-                const config = await fs.readJson(configPath);
-                return {
-                  ...persona,
-                  organization: config.organization || null,
-                  archived: config.archived === true || config.status === 'Archived'
-                };
-              }
-            } catch (err) {
-              console.error(`Error reading config for ${persona.studyId}:`, err);
-            }
+    for (const projectSlug of projects) {
+      try {
+        // Read project config to get organization and archived status
+        const projectDir = getProjectDir(projectSlug);
+        const configPath = path.join(projectDir, 'study.config.json');
+        let organization = null;
+        let isArchived = false;
+        
+        if (await fs.pathExists(configPath)) {
+          const config = await fs.readJson(configPath);
+          organization = config.organization || null;
+          isArchived = config.archived === true || config.status === 'Archived';
+        }
+        
+        // Skip archived projects unless explicitly requested
+        if (isArchived && includeArchived !== 'true') {
+          continue;
+        }
+        
+        // Read personas from project folder
+        const personasPath = path.join(projectDir, 'personas', 'updates.json');
+        
+        if (await fs.pathExists(personasPath)) {
+          const personasData = await fs.readJson(personasPath);
+          
+          if (personasData.personas && Array.isArray(personasData.personas)) {
+            // Add project context and organization to each persona
+            const enrichedPersonas = personasData.personas.map(persona => ({
+              ...persona,
+              projectSlug,
+              studyId: projectSlug, // Ensure studyId is set to project slug
+              organization,
+              archived: isArchived
+            }));
+            
+            allPersonas.push(...enrichedPersonas);
           }
-          return persona;
-        })
-      );
-      
-      // Filter out personas from archived projects unless explicitly requested
-      const filteredPersonas = includeArchived === 'true'
-        ? enrichedPersonas
-        : enrichedPersonas.filter(p => !p.archived);
-      
-      personasData.personas = filteredPersonas;
+        }
+      } catch (err) {
+        console.error(`Error reading personas for ${projectSlug}:`, err);
+      }
     }
     
-    res.json(personasData);
+    res.json({
+      lastUpdated: new Date().toISOString(),
+      totalPersonas: allPersonas.length,
+      personas: allPersonas
+    });
   } catch (error) {
     console.error('Error getting personas:', error);
     res.status(500).json({ error: 'Failed to get personas' });
   }
 });
 
-// GET /api/personas/:id - Get specific persona by ID
+// GET /api/personas/:id - Get specific persona by ID from all projects
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const personasData = await readSharedPersonas();
+    const projects = await listProjects();
     
-    const persona = personasData.personas?.find(p => p.id === id);
-    
-    if (!persona) {
-      return res.status(404).json({ error: 'Persona not found' });
+    // Search across all projects for the persona
+    for (const projectSlug of projects) {
+      try {
+        const projectDir = getProjectDir(projectSlug);
+        const personasPath = path.join(projectDir, 'personas', 'updates.json');
+        
+        if (await fs.pathExists(personasPath)) {
+          const personasData = await fs.readJson(personasPath);
+          const persona = personasData.personas?.find(p => p.id === id);
+          
+          if (persona) {
+            // Read project config for enrichment
+            const configPath = path.join(projectDir, 'study.config.json');
+            let organization = null;
+            let isArchived = false;
+            
+            if (await fs.pathExists(configPath)) {
+              const config = await fs.readJson(configPath);
+              organization = config.organization || null;
+              isArchived = config.archived === true || config.status === 'Archived';
+            }
+            
+            return res.json({
+              persona: {
+                ...persona,
+                projectSlug,
+                studyId: projectSlug,
+                organization,
+                archived: isArchived
+              }
+            });
+          }
+        }
+      } catch (err) {
+        console.error(`Error reading personas for ${projectSlug}:`, err);
+      }
     }
     
-    res.json({ persona });
+    // Persona not found in any project
+    return res.status(404).json({ error: 'Persona not found' });
   } catch (error) {
     console.error('Error getting persona:', error);
     res.status(500).json({ error: 'Failed to get persona' });
   }
 });
 
-// PUT /api/personas - Update personas
+// PUT /api/personas - Update personas for a specific project
 router.put('/', async (req, res) => {
   try {
-    await writeSharedPersonas(req.body);
+    const { projectSlug, ...personasData } = req.body;
+    
+    if (!projectSlug) {
+      return res.status(400).json({ error: 'projectSlug is required' });
+    }
+    
+    const projectDir = getProjectDir(projectSlug);
+    const personasPath = path.join(projectDir, 'personas', 'updates.json');
+    
+    await fs.ensureDir(path.dirname(personasPath));
+    await fs.writeJson(personasPath, personasData, { spaces: 2 });
+    
     res.json({ success: true });
   } catch (error) {
     console.error('Error updating personas:', error);
@@ -82,24 +140,40 @@ router.put('/', async (req, res) => {
   }
 });
 
-// POST /api/personas - Create new persona
+// POST /api/personas - Create new persona in a specific project
 router.post('/', async (req, res) => {
   try {
-    const personasData = await readSharedPersonas();
+    const { projectSlug, ...personaData } = req.body;
+    
+    if (!projectSlug) {
+      return res.status(400).json({ error: 'projectSlug is required' });
+    }
+    
+    const projectDir = getProjectDir(projectSlug);
+    const personasPath = path.join(projectDir, 'personas', 'updates.json');
+    
+    // Read existing personas or create new structure
+    let personasData = { personas: [] };
+    if (await fs.pathExists(personasPath)) {
+      personasData = await fs.readJson(personasPath);
+    }
     
     if (!personasData.personas) {
       personasData.personas = [];
     }
     
     const newPersona = {
-      ...req.body,
+      ...personaData,
       lastUpdated: new Date().toISOString()
     };
     
     personasData.personas.push(newPersona);
     personasData.lastUpdated = new Date().toISOString();
+    personasData.studyId = projectSlug;
+    personasData.totalPersonas = personasData.personas.length;
     
-    await writeSharedPersonas(personasData);
+    await fs.ensureDir(path.dirname(personasPath));
+    await fs.writeJson(personasPath, personasData, { spaces: 2 });
     
     res.json({ success: true, persona: newPersona });
   } catch (error) {
@@ -108,29 +182,47 @@ router.post('/', async (req, res) => {
   }
 });
 
-// PUT /api/personas/:id - Update specific persona
+// PUT /api/personas/:id - Update specific persona in its source project
 router.put('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const personasData = await readSharedPersonas();
+    const projects = await listProjects();
     
-    const personaIndex = personasData.personas.findIndex(p => p.id === id);
-    
-    if (personaIndex === -1) {
-      return res.status(404).json({ error: 'Persona not found' });
+    // Find the persona in its source project
+    for (const projectSlug of projects) {
+      try {
+        const projectDir = getProjectDir(projectSlug);
+        const personasPath = path.join(projectDir, 'personas', 'updates.json');
+        
+        if (await fs.pathExists(personasPath)) {
+          const personasData = await fs.readJson(personasPath);
+          const personaIndex = personasData.personas?.findIndex(p => p.id === id);
+          
+          if (personaIndex !== -1) {
+            // Update the persona
+            personasData.personas[personaIndex] = {
+              ...personasData.personas[personaIndex],
+              ...req.body,
+              lastUpdated: new Date().toISOString()
+            };
+            
+            personasData.lastUpdated = new Date().toISOString();
+            
+            // Write back to project folder
+            await fs.writeJson(personasPath, personasData, { spaces: 2 });
+            
+            return res.json({ 
+              success: true, 
+              persona: personasData.personas[personaIndex] 
+            });
+          }
+        }
+      } catch (err) {
+        console.error(`Error updating persona in ${projectSlug}:`, err);
+      }
     }
     
-    personasData.personas[personaIndex] = {
-      ...personasData.personas[personaIndex],
-      ...req.body,
-      lastUpdated: new Date().toISOString()
-    };
-    
-    personasData.lastUpdated = new Date().toISOString();
-    
-    await writeSharedPersonas(personasData);
-    
-    res.json({ success: true, persona: personasData.personas[personaIndex] });
+    return res.status(404).json({ error: 'Persona not found' });
   } catch (error) {
     console.error('Error updating persona:', error);
     res.status(500).json({ error: 'Failed to update persona' });

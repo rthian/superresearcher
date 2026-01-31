@@ -5,8 +5,8 @@
   "type": "interview",
   "organization": "GXB",
   "createdAt": "2026-01-20T06:30:02.012Z",
-  "updatedAt": "2026-01-28T10:02:48.450Z",
-  "status": "Archived",
+  "updatedAt": "2026-01-31T02:59:32.162Z",
+  "status": "Active",
   "notion": {
     "enabled": false,
     "studyPageId": null,
@@ -18,6 +18,6 @@
     "endDate": null,
     "owner": null
   },
-  "archived": true,
-  "archivedAt": "2026-01-28T10:02:48.450Z"
+  "archived": false,
+  "archivedAt": null
 }
