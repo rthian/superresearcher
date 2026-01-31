@@ -46,3 +46,91 @@
   }
 }
 
+@layer utilities {
+  /* Modal animations */
+  .animate-fadeIn {
+    animation: fadeIn 0.2s ease-out;
+  }
+  
+  .animate-slideUp {
+    animation: slideUp 0.3s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* Mobile touch improvements */
+  @media (max-width: 768px) {
+    .card {
+      @apply active:scale-[0.98] transition-transform;
+    }
+    
+    button, a {
+      min-height: 44px; /* iOS recommended touch target */
+      min-width: 44px;
+    }
+    
+    .badge {
+      @apply text-sm px-3 py-1;
+    }
+  }
+
+  /* Smooth scrolling for modal content */
+  .modal-content {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Print styles */
+  @media print {
+    body * {
+      visibility: hidden;
+    }
+    
+    .fixed.inset-0, .fixed.inset-0 * {
+      visibility: visible;
+    }
+    
+    .fixed.inset-0 {
+      position: static;
+      background: white !important;
+    }
+    
+    .bg-black {
+      background: transparent !important;
+    }
+    
+    .animate-slideUp > div {
+      max-height: none !important;
+    }
+    
+    .overflow-y-auto {
+      overflow: visible !important;
+    }
+    
+    .shadow-xl {
+      box-shadow: none !important;
+    }
+    
+    @page {
+      margin: 1cm;
+    }
+  }
+}
+

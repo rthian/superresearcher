@@ -2,10 +2,13 @@ import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
 import { insightsAPI } from '../api/insights';
+import { actionsAPI } from '../api/actions';
+import { personasAPI } from '../api/personas';
 import { FiDownload } from 'react-icons/fi';
 import { exportInsights, exportToJSON } from '../utils/export';
 import { CATEGORY_COLORS } from '../utils/constants';
 import toast from 'react-hot-toast';
+import InsightDetailModal from '../components/insights/InsightDetailModal';
 
 function InsightsExplorer() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -17,13 +20,95 @@ function InsightsExplorer() {
     searchParams.get('ids') ? searchParams.get('ids').split(',') : []
   );
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedInsight, setSelectedInsight] = useState(null);
+  const [selectedAction, setSelectedAction] = useState(null);
+  const [navigationHistory, setNavigationHistory] = useState([]);
   
   const { data, isLoading, error } = useQuery({
     queryKey: ['insights-all'],
     queryFn: () => insightsAPI.listAll(),
   });
 
+  const { data: allActions } = useQuery({
+    queryKey: ['actions-all'],
+    queryFn: () => actionsAPI.listAll(),
+  });
+
+  const { data: allPersonas } = useQuery({
+    queryKey: ['personas-all'],
+    queryFn: () => personasAPI.listAll(),
+  });
+
   const insights = data?.insights || [];
+
+  // Calculate related items when insight is selected
+  const relatedActions = selectedInsight 
+    ? (allActions?.actions || []).filter(a => a.sourceInsight === selectedInsight.id)
+    : [];
+
+  const relatedPersonas = selectedInsight
+    ? (allPersonas?.personas || []).filter(p => 
+        p.supportingInsights?.includes(selectedInsight.id)
+      )
+    : [];
+
+  const actionSourceInsight = selectedAction && allActions?.actions
+    ? insights.find(i => i.id === selectedAction.sourceInsight)
+    : null;
+
+  const actionRelatedPersonas = selectedAction && actionSourceInsight
+    ? (allPersonas?.personas || []).filter(p => 
+        p.supportingInsights?.includes(actionSourceInsight.id)
+      )
+    : [];
+
+  const handleViewAction = (action) => {
+    // Add current insight to history before switching
+    if (selectedInsight) {
+      setNavigationHistory([...navigationHistory, { type: 'insight', title: selectedInsight.title, id: selectedInsight.id }]);
+    }
+    setSelectedInsight(null);
+    setSelectedAction(action);
+  };
+
+  const handleViewInsight = (insight) => {
+    // Add current action to history before switching
+    if (selectedAction) {
+      setNavigationHistory([...navigationHistory, { type: 'action', title: selectedAction.title, id: selectedAction.id }]);
+    }
+    setSelectedAction(null);
+    setSelectedInsight(insight);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedInsight(null);
+    setSelectedAction(null);
+    setNavigationHistory([]);
+  };
+
+  // Keyboard navigation for insights
+  useEffect(() => {
+    if (!selectedInsight || selectedAction) return;
+
+    const handleKeyNav = (e) => {
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        const currentIndex = filteredInsights.findIndex(i => i.id === selectedInsight.id);
+        if (currentIndex === -1) return;
+
+        let nextIndex;
+        if (e.key === 'ArrowRight') {
+          nextIndex = (currentIndex + 1) % filteredInsights.length;
+        } else {
+          nextIndex = (currentIndex - 1 + filteredInsights.length) % filteredInsights.length;
+        }
+
+        setSelectedInsight(filteredInsights[nextIndex]);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyNav);
+    return () => window.removeEventListener('keydown', handleKeyNav);
+  }, [selectedInsight, selectedAction, filteredInsights]);
 
   // Update URL params when filters change
   useEffect(() => {
@@ -296,7 +381,11 @@ function InsightsExplorer() {
       {/* Insights Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredInsights.map((insight) => (
-          <div key={insight.id} className="card hover:shadow-md transition-shadow">
+          <div 
+            key={insight.id} 
+            className="card hover:shadow-md transition-shadow cursor-pointer"
+            onClick={() => setSelectedInsight(insight)}
+          >
             <div className="mb-3">
               <h3 className="font-medium text-gray-900 mb-2">{insight.title}</h3>
               <div className="flex flex-wrap gap-2">
@@ -328,6 +417,18 @@ function InsightsExplorer() {
           </div>
         ))}
       </div>
+
+      {/* Insight Detail Modal */}
+      {selectedInsight && (
+        <InsightDetailModal
+          insight={selectedInsight}
+          relatedActions={relatedActions}
+          relatedPersonas={relatedPersonas}
+          onClose={handleCloseModal}
+          onViewAction={handleViewAction}
+          navigationHistory={navigationHistory}
+        />
+      )}
     </div>
   );
 }

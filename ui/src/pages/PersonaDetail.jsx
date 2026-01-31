@@ -357,22 +357,24 @@ function PersonaDetail() {
             {persona.supportingInsights.map((insightId) => (
               <Link
                 key={insightId}
-                to={`/insights?ids=${persona.supportingInsights.join(',')}`}
-                className="px-3 py-1.5 bg-gray-100 hover:bg-primary-100 hover:text-primary-700 rounded-md text-sm text-gray-700 transition-colors"
+                to={`/insights?ids=${insightId}`}
+                className="px-3 py-1.5 bg-gray-100 hover:bg-primary-100 hover:text-primary-700 rounded-md text-sm text-gray-700 transition-colors font-mono"
               >
                 {insightId}
               </Link>
             ))}
           </div>
           <p className="text-sm text-gray-500 mt-3">
-            Click to view these {persona.supportingInsights.length} insights in the Insights Explorer (filtered)
+            💡 Click any insight ID to view its details, or view all insights together below
           </p>
-          <Link
-            to={`/insights?ids=${persona.supportingInsights.join(',')}`}
-            className="mt-3 inline-flex items-center gap-2 text-primary-600 hover:text-primary-700 font-medium"
-          >
-            View all {persona.supportingInsights.length} supporting insights →
-          </Link>
+          {persona.supportingInsights.length > 1 && (
+            <Link
+              to={`/insights?ids=${persona.supportingInsights.join(',')}`}
+              className="mt-3 inline-flex items-center gap-2 text-primary-600 hover:text-primary-700 font-medium"
+            >
+              View all {persona.supportingInsights.length} supporting insights together →
+            </Link>
+          )}
         </div>
       )}
     </div>
