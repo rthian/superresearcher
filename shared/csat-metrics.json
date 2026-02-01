@@ -1,0 +1,664 @@
+{
+  "lastUpdated": "2026-01-28T11:30:00.000Z",
+  "dataCollectionCadence": "quarterly",
+  "targetTransitionDate": "2026-Q3",
+  "scale": {
+    "min": 1,
+    "max": 10,
+    "type": "10-point"
+  },
+  "npsScale": {
+    "min": -100,
+    "max": 100,
+    "detractors": "0-6",
+    "passives": "7-8",
+    "promoters": "9-10"
+  },
+  "benchmarks": {
+    "farBelow": -3,
+    "missed": -2,
+    "target": 0,
+    "exceed": 2,
+    "outshied": 3
+  },
+  "alertThresholds": {
+    "csatMinimum": 7.0,
+    "npsMinimum": 30,
+    "qoqDropThreshold": -0.3,
+    "yoyDropThreshold": -0.5,
+    "npsDropThreshold": -10
+  },
+  "dimensions": [
+    {
+      "id": "bank-csat",
+      "name": "Customer Satisfaction (Bank)",
+      "label": "Bank CSAT",
+      "primary": true
+    },
+    {
+      "id": "debit-card-csat",
+      "name": "Debit Card CSAT",
+      "label": "Debit Card"
+    },
+    {
+      "id": "casa-csat",
+      "name": "CASA CSAT (GX Account)",
+      "label": "GX Account"
+    },
+    {
+      "id": "flexicredit-csat",
+      "name": "Flexicredit CSAT",
+      "label": "Flexicredit"
+    },
+    {
+      "id": "bonus-pocket-csat",
+      "name": "Bonus Pocket CSAT",
+      "label": "Bonus Pocket"
+    },
+    {
+      "id": "product-quality-design",
+      "name": "Product Quality - Design",
+      "label": "Design"
+    },
+    {
+      "id": "product-quality-ease-transaction",
+      "name": "Product Quality - Ease of Transaction",
+      "label": "Ease of Transaction"
+    },
+    {
+      "id": "product-quality-ease-navigation",
+      "name": "Product Quality - Ease of Navigation",
+      "label": "Ease of Navigation"
+    },
+    {
+      "id": "product-quality-responsive",
+      "name": "Product Quality - Responsive",
+      "label": "Responsive"
+    },
+    {
+      "id": "product-quality-app",
+      "name": "Product Quality - App CSAT",
+      "label": "App CSAT"
+    },
+    {
+      "id": "product-relevance",
+      "name": "Product Relevance",
+      "label": "Product Relevance"
+    },
+    {
+      "id": "service-quality-prompt",
+      "name": "Service Quality - Prompt Service",
+      "label": "Prompt Service"
+    },
+    {
+      "id": "trust",
+      "name": "Trust",
+      "label": "Trust"
+    },
+    {
+      "id": "customer-expectations",
+      "name": "Customer Expectations",
+      "label": "Customer Expectations"
+    },
+    {
+      "id": "information-clarity",
+      "name": "Information Clarity",
+      "label": "Clarity"
+    },
+    {
+      "id": "information-comprehensive",
+      "name": "Information Comprehensive",
+      "label": "Comprehensive Info"
+    },
+    {
+      "id": "security-assurance",
+      "name": "Security Assurance",
+      "label": "Security Measures"
+    },
+    {
+      "id": "value-rewards",
+      "name": "Value - Rewards & Benefits",
+      "label": "Rewards"
+    },
+    {
+      "id": "value-rates",
+      "name": "Value - Competitiveness of Rates/Fees",
+      "label": "Rates/Fees"
+    }
+  ],
+  "periods": [
+    {
+      "id": "period-2025-q1",
+      "period": "2025-Q1",
+      "periodType": "quarterly",
+      "startDate": "2025-01-01",
+      "endDate": "2025-03-31",
+      "collectedAt": "2025-04-05T09:00:00.000Z",
+      "dataSource": "survey",
+      "bankWide": {
+        "csat": {
+          "score": 8.23,
+          "responses": 2800
+        },
+        "nps": {
+          "score": 39,
+          "responses": 1901,
+          "trend": "Strong start to 2025"
+        }
+      },
+      "byOrganization": {
+        "GXS": {
+          "csat": {
+            "score": 8.42,
+            "responses": 1400
+          },
+          "nps": {
+            "score": 39,
+            "responses": 1901,
+            "blended": 39,
+            "casaNPS": 35,
+            "flexiLoanNPS": 54,
+            "flexiCardNPS": 38,
+            "investNPS": null
+          },
+          "appStoreRating": 3.9,
+          "playStoreRating": 3.6,
+          "dimensions": {
+            "bank-csat": { "score": 8.42, "responses": 1400 }
+          }
+        },
+        "GXB": {
+          "csat": {
+            "score": 8.04,
+            "responses": 1400
+          },
+          "nps": {
+            "score": null,
+            "responses": null,
+            "note": "Q1 2025 data not available"
+          },
+          "dimensions": {
+            "bank-csat": { "score": 8.04, "responses": 1400 }
+          }
+        }
+      },
+      "byProduct": {},
+      "verbatims": [],
+      "alerts": []
+    },
+    {
+      "id": "period-2025-q2",
+      "period": "2025-Q2",
+      "periodType": "quarterly",
+      "startDate": "2025-04-01",
+      "endDate": "2025-06-30",
+      "collectedAt": "2025-07-05T09:00:00.000Z",
+      "dataSource": "survey",
+      "bankWide": {
+        "csat": {
+          "score": 8.08,
+          "responses": 2900,
+          "qoqChange": -0.15
+        },
+        "nps": {
+          "score": 30,
+          "responses": 2800,
+          "qoqChange": -9,
+          "trend": "Sharp decline"
+        }
+      },
+      "byOrganization": {
+        "GXS": {
+          "csat": {
+            "score": 8.11,
+            "responses": 1450,
+            "qoqChange": -0.31
+          },
+          "nps": {
+            "score": 28,
+            "responses": 1901,
+            "qoqChange": -11,
+            "blended": 28,
+            "casaNPS": 23,
+            "flexiLoanNPS": 50,
+            "flexiCardNPS": 30,
+            "investNPS": null
+          },
+          "appStoreRating": 3.9,
+          "playStoreRating": 3.2,
+          "dimensions": {
+            "bank-csat": { "score": 8.11, "responses": 1450 }
+          }
+        },
+        "GXB": {
+          "csat": {
+            "score": 8.04,
+            "responses": 1450,
+            "qoqChange": 0.00
+          },
+          "nps": {
+            "score": 32,
+            "responses": 1203,
+            "blended": 32,
+            "casaNPS": 31,
+            "flexiCreditNPS": 63
+          },
+          "appStoreRating": 3.9,
+          "playStoreRating": 4.2,
+          "dimensions": {
+            "bank-csat": { "score": 8.04, "responses": 1450 }
+          }
+        }
+      },
+      "byProduct": {},
+      "verbatims": [],
+      "alerts": [
+        {
+          "id": "alert-2025q2-gxs-nps",
+          "type": "nps_drop",
+          "severity": "critical",
+          "entity": "GXS",
+          "entityType": "organization",
+          "metric": "nps",
+          "currentValue": 28,
+          "previousValue": 39,
+          "change": -11,
+          "triggeredAt": "2025-07-05T09:00:00.000Z",
+          "status": "open",
+          "message": "GXS Blended NPS dropped 11 points QoQ"
+        },
+        {
+          "id": "alert-2025q2-gxs-casa-nps",
+          "type": "nps_drop",
+          "severity": "critical",
+          "entity": "GXS CASA",
+          "entityType": "product",
+          "metric": "nps",
+          "currentValue": 23,
+          "previousValue": 35,
+          "change": -12,
+          "triggeredAt": "2025-07-05T09:00:00.000Z",
+          "status": "open",
+          "message": "GXS CASA NPS dropped 12 points QoQ"
+        }
+      ]
+    },
+    {
+      "id": "period-2025-q3",
+      "period": "2025-Q3",
+      "periodType": "quarterly",
+      "startDate": "2025-07-01",
+      "endDate": "2025-09-30",
+      "collectedAt": "2025-10-05T09:00:00.000Z",
+      "dataSource": "survey",
+      "bankWide": {
+        "csat": {
+          "score": 8.08,
+          "responses": 3000,
+          "qoqChange": 0.00
+        },
+        "nps": {
+          "score": 26,
+          "responses": 3100,
+          "qoqChange": -4,
+          "trend": "Continued decline"
+        }
+      },
+      "byOrganization": {
+        "GXS": {
+          "csat": {
+            "score": 8.00,
+            "responses": 1500,
+            "qoqChange": -0.11
+          },
+          "nps": {
+            "score": 22,
+            "responses": 1901,
+            "qoqChange": -6,
+            "blended": 22,
+            "casaNPS": 14,
+            "flexiLoanNPS": 50,
+            "flexiCardNPS": 39,
+            "investNPS": 2
+          },
+          "appStoreRating": 3.9,
+          "playStoreRating": 3.1,
+          "dimensions": {
+            "bank-csat": { "score": 8.00, "responses": 1500 }
+          }
+        },
+        "GXB": {
+          "csat": {
+            "score": 8.15,
+            "responses": 1500,
+            "qoqChange": 0.11
+          },
+          "nps": {
+            "score": 30,
+            "responses": 1203,
+            "qoqChange": -2,
+            "blended": 30,
+            "casaNPS": 29,
+            "flexiCreditNPS": 63
+          },
+          "appStoreRating": 3.9,
+          "playStoreRating": 4.1,
+          "dimensions": {
+            "bank-csat": { "score": 8.15, "responses": 1500 }
+          }
+        }
+      },
+      "byProduct": {},
+      "verbatims": [],
+      "alerts": [
+        {
+          "id": "alert-2025q3-gxs-casa-nps-critical",
+          "type": "nps_drop",
+          "severity": "critical",
+          "entity": "GXS CASA",
+          "entityType": "product",
+          "metric": "nps",
+          "currentValue": 14,
+          "previousValue": 23,
+          "change": -9,
+          "triggeredAt": "2025-10-05T09:00:00.000Z",
+          "status": "open",
+          "message": "GXS CASA NPS at critically low 14 points"
+        },
+        {
+          "id": "alert-2025q3-gxs-invest-nps",
+          "type": "threshold_breach",
+          "severity": "high",
+          "entity": "GXS Invest",
+          "entityType": "product",
+          "metric": "nps",
+          "currentValue": 2,
+          "threshold": 10,
+          "triggeredAt": "2025-10-05T09:00:00.000Z",
+          "status": "open",
+          "message": "GXS Invest NPS at only 2 points - detractor territory"
+        }
+      ]
+    },
+    {
+      "id": "period-2025-q4",
+      "period": "2025-Q4",
+      "periodType": "quarterly",
+      "startDate": "2025-10-01",
+      "endDate": "2025-12-31",
+      "collectedAt": "2026-01-08T09:00:00.000Z",
+      "dataSource": "survey",
+      "bankWide": {
+        "csat": {
+          "score": 8.00,
+          "responses": 3150,
+          "qoqChange": -0.08
+        },
+        "nps": {
+          "score": 29,
+          "responses": 3300,
+          "qoqChange": 3,
+          "trend": "Slight recovery",
+          "yoyChange": -13
+        }
+      },
+      "byOrganization": {
+        "GXS": {
+          "csat": {
+            "score": 7.95,
+            "responses": 1550,
+            "qoqChange": -0.05,
+            "yoyChange": -0.44
+          },
+          "nps": {
+            "score": 26,
+            "responses": 1901,
+            "qoqChange": 4,
+            "yoyChange": -13,
+            "yearAverage": 29,
+            "vs2024": -13,
+            "blended": 26,
+            "casaNPS": 19,
+            "casaNPSChange": 5,
+            "flexiLoanNPS": 56,
+            "flexiLoanNPSChange": 6,
+            "flexiCardNPS": 41,
+            "flexiCardNPSChange": 2,
+            "investNPS": -13,
+            "investNPSChange": -15
+          },
+          "appStoreRating": 3.9,
+          "playStoreRating": 3.8,
+          "playStoreChange": 0.7,
+          "dimensions": {
+            "bank-csat": { "score": 7.95, "responses": 1550 }
+          }
+        },
+        "GXB": {
+          "csat": {
+            "score": 8.04,
+            "responses": 1600,
+            "qoqChange": -0.11
+          },
+          "nps": {
+            "score": 32,
+            "responses": 1203,
+            "qoqChange": 2,
+            "yearAverage": 31,
+            "vsOKR": -3,
+            "blended": 32,
+            "casaNPS": 31,
+            "casaNPSChange": 2,
+            "flexiCreditNPS": 61,
+            "flexiCreditNPSChange": -2,
+            "note": "Underperformed OKR of 35 pts due to lower CASA scores"
+          },
+          "appStoreRating": 4.1,
+          "appStoreChange": 0.1,
+          "playStoreRating": 4.6,
+          "playStoreChange": 0.5,
+          "dimensions": {
+            "bank-csat": { "score": 8.04, "responses": 1600 }
+          }
+        }
+      },
+      "byProduct": {
+        "FlexiLoan": {
+          "organization": "GXS",
+          "csat": {
+            "score": 8.87,
+            "responses": 441
+          },
+          "nps": {
+            "score": 56,
+            "responses": 441,
+            "qoqChange": 6,
+            "yearAverage": 53
+          },
+          "linkedProject": null
+        },
+        "FlexiCard": {
+          "organization": "GXS",
+          "csat": {
+            "score": 8.51,
+            "responses": 303
+          },
+          "nps": {
+            "score": 41,
+            "responses": 303,
+            "qoqChange": 2,
+            "yearAverage": 37
+          },
+          "linkedProject": null
+        },
+        "GXSInvest": {
+          "organization": "GXS",
+          "csat": {
+            "score": 7.44,
+            "responses": 377
+          },
+          "nps": {
+            "score": -13,
+            "responses": 377,
+            "qoqChange": -15,
+            "yearAverage": -5,
+            "status": "Critical"
+          },
+          "linkedProject": null
+        },
+        "CASA": {
+          "organization": "GXS",
+          "csat": {
+            "score": 7.96,
+            "responses": 780
+          },
+          "nps": {
+            "score": 19,
+            "responses": 780,
+            "qoqChange": 5,
+            "yearAverage": 23
+          },
+          "linkedProject": null
+        },
+        "Flexicredit": {
+          "organization": "GXB",
+          "csat": {
+            "score": 8.58,
+            "responses": 292
+          },
+          "nps": {
+            "score": 61,
+            "responses": 292,
+            "qoqChange": -2,
+            "yearAverage": 62
+          },
+          "linkedProject": "post-flexicredit"
+        },
+        "GXAccount": {
+          "organization": "GXB",
+          "csat": {
+            "score": 7.50,
+            "responses": 743
+          },
+          "nps": {
+            "score": 31,
+            "responses": 743,
+            "qoqChange": 2,
+            "yearAverage": 30
+          },
+          "linkedProject": null
+        }
+      },
+      "byDimension": {},
+      "verbatims": [],
+      "alerts": [
+        {
+          "id": "alert-2025q4-gxs-invest-nps-negative",
+          "type": "nps_negative",
+          "severity": "critical",
+          "entity": "GXS Invest",
+          "entityType": "product",
+          "metric": "nps",
+          "currentValue": -13,
+          "previousValue": 2,
+          "change": -15,
+          "triggeredAt": "2026-01-08T09:00:00.000Z",
+          "status": "open",
+          "message": "GXS Invest NPS turned NEGATIVE (-13), dropped 15 points - immediate action required"
+        },
+        {
+          "id": "alert-2025q4-gxs-casa-nps-low",
+          "type": "threshold_breach",
+          "severity": "high",
+          "entity": "GXS CASA",
+          "entityType": "product",
+          "metric": "nps",
+          "currentValue": 19,
+          "threshold": 30,
+          "triggeredAt": "2026-01-08T09:00:00.000Z",
+          "status": "open",
+          "message": "GXS CASA NPS at 19 - well below 30 threshold despite +5 improvement"
+        },
+        {
+          "id": "alert-2025q4-gxs-nps-yoy",
+          "type": "yoy_drop",
+          "severity": "critical",
+          "entity": "GXS Blended",
+          "entityType": "organization",
+          "metric": "nps",
+          "currentValue": 26,
+          "previousValue": 42,
+          "change": -13,
+          "triggeredAt": "2026-01-08T09:00:00.000Z",
+          "status": "open",
+          "message": "GXS Blended NPS down 13 points YoY (2024: 42 → 2025: 29)"
+        },
+        {
+          "id": "alert-2025q4-gxb-okr-miss",
+          "type": "okr_miss",
+          "severity": "medium",
+          "entity": "GXB Blended",
+          "entityType": "organization",
+          "metric": "nps",
+          "currentValue": 31,
+          "target": 35,
+          "gap": -4,
+          "triggeredAt": "2026-01-08T09:00:00.000Z",
+          "status": "open",
+          "message": "GXB Blended NPS (31) missed OKR target of 35 pts, primarily due to lower CASA scores"
+        }
+      ]
+    }
+  ],
+  "scorecardExports": [],
+  "insights": {
+    "gxs": {
+      "strengths": [
+        "FlexiLoan NPS (56) and CSAT (8.87) are strongest performers",
+        "Q4 recovery in CASA NPS (+5 pts) and overall NPS (+4 pts)",
+        "Play Store rating improved significantly (+0.7 to 3.8)"
+      ],
+      "concerns": [
+        "Invest product has NEGATIVE NPS (-13) and dropped 15 points in Q4",
+        "Blended NPS declined 13 points YoY (42 → 29)",
+        "CASA NPS still low at 19 despite recovery",
+        "Overall CSAT dropped below 8.0 threshold"
+      ],
+      "recommendations": [
+        "URGENT: Address Invest product issues - negative NPS requires immediate intervention",
+        "Continue CASA improvement efforts - trend is positive but absolute level still low",
+        "Leverage FlexiLoan success model for other products",
+        "Investigate Q2 2025 sharp drop to prevent recurrence"
+      ]
+    },
+    "gxb": {
+      "strengths": [
+        "FlexiCredit NPS (61-62) consistently strongest performer",
+        "More stable NPS performance (30-32 range)",
+        "App Store and Play Store ratings both improved in Q4",
+        "Play Store reached 4.6 (+0.5 from Q3)"
+      ],
+      "concerns": [
+        "Missed Blended NPS OKR of 35 pts (achieved 31)",
+        "CASA NPS (30-31) dragging down overall score",
+        "FlexiCredit NPS declined slightly (-2 pts in Q4)",
+        "CASA CSAT (7.50) and Value metrics (7.45-7.48) still low"
+      ],
+      "recommendations": [
+        "Focus on improving CASA experience to lift blended NPS to OKR level",
+        "Maintain FlexiCredit excellence while preventing further decline",
+        "Address value proposition concerns (rewards, rates)",
+        "Leverage app store rating improvements in marketing"
+      ]
+    },
+    "comparative": {
+      "gxsVsGxb": {
+        "npsDifference": "GXB (32) outperforms GXS (26) by 6 points in Q4 2025",
+        "csatDifference": "GXB (8.04) slightly higher than GXS (7.95) in Q4 2025",
+        "stability": "GXB shows more stability; GXS experiencing volatility",
+        "productStrength": "Both excel in credit products (FlexiLoan/FlexiCredit NPS >50)",
+        "weakness": "Both struggle with CASA/account products (NPS 19-31 range)"
+      }
+    }
+  }
+}

@@ -36,7 +36,48 @@ coverage/
 *.temp
 .prompts/*.bak
 
-# Large research files (optional - uncomment if needed)
-# projects/*/context/reports/*.pdf
-# projects/*/context/transcripts/*.mp3
-# projects/*/context/transcripts/*.mp4
+# Project data (keep studies private by default)
+# Ignore all files in projects except .gitkeep files
+projects/**/insights/*
+projects/**/actions/*
+projects/**/personas/*
+projects/**/context/transcripts/*.md
+projects/**/context/transcripts/*.txt
+projects/**/context/transcripts/*.docx
+projects/**/context/reports/*.pdf
+projects/**/context/reports/*.docx
+projects/**/context/surveys/*.csv
+projects/**/context/surveys/*.json
+projects/**/context/surveys/*.xlsx
+projects/**/study.md
+projects/**/methodology.md
+projects/**/feedback.json
+projects/**/.prompts/*
+
+# But keep directory structure with .gitkeep files
+!projects/**/.gitkeep
+!projects/.gitkeep
+
+# Shared data (generated from studies)
+shared/personas/*.json
+shared/personas/*.md
+shared/themes/*.json
+shared/patterns/*.json
+shared/analysis/*.md
+shared/csat-responses.json
+shared/csat-state.json
+shared/research-suggestions.json
+
+# But keep directory structure with .gitkeep files
+!shared/**/.gitkeep
+
+# UI build output
+ui/dist/
+ui/node_modules/
+
+# Large media files
+projects/**/context/transcripts/*.mp3
+projects/**/context/transcripts/*.mp4
+projects/**/context/transcripts/*.wav
+projects/**/context/reports/*.mov
+projects/**/context/reports/*.mp4

@@ -1,0 +1,44 @@
+{
+  "id": "c75f9ad1-a293-48a4-a5c6-5923bf366399",
+  "name": "Quarterly Voice of Customer Study (Q1 2026)",
+  "slug": "voc",
+  "type": "voc-quarterly",
+  "organization": "Multi-Org",
+  "organizations": ["GXS", "GXB"],
+  "quarter": "Q1 2026",
+  "createdAt": "2026-01-31T03:08:35.296Z",
+  "updatedAt": "2026-01-31T03:08:35.296Z",
+  "status": "Planning",
+  "archived": false,
+  "notion": {
+    "enabled": false,
+    "studyPageId": null,
+    "insightsDatabaseId": null
+  },
+  "metadata": {
+    "participants": 1000,
+    "targetResponses": 500,
+    "targetInterviews": 20,
+    "startDate": "2026-02-01",
+    "endDate": "2026-03-15",
+    "analysisCompleteDate": "2026-03-31",
+    "owner": "Customer Insights Team",
+    "stakeholders": [
+      "Executive Team",
+      "Product (GXS)",
+      "Product (GXB)",
+      "Engineering",
+      "Customer Support",
+      "Marketing"
+    ],
+    "dataSources": [
+      "App Store Reviews",
+      "In-App Surveys",
+      "Customer Support Tickets",
+      "User Interviews",
+      "Social Media Monitoring"
+    ],
+    "recurring": true,
+    "frequency": "quarterly"
+  }
+}

@@ -1,0 +1,10 @@
+period,organization,dimension,product,score,responses,survey_question,verbatim
+2026-Q1,GXS,bank-csat,MobileApp,8.47,456,"How satisfied are you with GXS Bank overall?","Great app but needs Apple Pay support"
+2026-Q1,GXS,product-quality,MobileApp,8.10,456,"How satisfied are you with the quality of our products?","Good products but some features are missing"
+2026-Q1,GXS,service-quality,MobileApp,8.53,456,"How satisfied are you with our customer service?","Very responsive customer service team"
+2026-Q1,GXS,trust,MobileApp,8.92,456,"How much do you trust GXS Bank?","I trust them with my money"
+2026-Q1,GXB,bank-csat,FlexiCredit,8.51,234,"Overall satisfaction with GX Bank?","Easy approval process for FlexiCredit"
+2026-Q1,GXB,product-quality,FlexiCredit,8.76,234,"Product quality satisfaction?","FlexiCredit product is excellent"
+2026-Q1,Superbank,bank-csat,SavingsAccount,7.89,187,"How satisfied are you with Superbank?","Good interest rates"
+2026-Q1,Superbank,value,SavingsAccount,8.34,187,"How satisfied are you with the value provided?","Competitive rates compared to others"
+

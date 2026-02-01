@@ -13,6 +13,7 @@ import { syncCommand } from './commands/sync.js';
 import { doctorCommand } from './commands/doctor.js';
 import { analyzeCommand } from './commands/analyze.js';
 import { vocChunkToJsonCommand, vocConvertToChunksCommand } from './commands/voc.js';
+import { serveCommand } from './commands/serve.js';
 import { VERSION } from './config/constants.js';
 
 // Load environment variables
@@ -104,6 +105,15 @@ program
   .command('doctor')
   .description('Check if everything is set up correctly')
   .action(doctorCommand);
+
+// Serve command - Start web UI server
+program
+  .command('serve')
+  .description('Start the web UI server')
+  .option('-p, --port <number>', 'Port number (default: 3000)', parseInt, 3000)
+  .option('--no-browser', 'Don\'t open browser automatically')
+  .option('--no-telemetry', 'Disable anonymous usage analytics')
+  .action(serveCommand);
 
 // VoC commands
 const vocCommand = program

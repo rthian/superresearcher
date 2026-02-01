@@ -1,1 +1,2 @@
-# Cross-study analysis outputs will be generated here
+# Cross-study analysis files will be generated here
+# These files are gitignored by default to keep data private
