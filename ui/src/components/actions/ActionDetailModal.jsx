@@ -285,6 +285,35 @@ ${relatedPersonas.length > 0 ? `## Impacted Personas (${relatedPersonas.length})
             </section>
           )}
 
+          {/* Connection Stats */}
+          <section className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-4 border border-green-200">
+            <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
+              🔗 Connections
+            </h3>
+            <div className="grid grid-cols-3 gap-4">
+              <div className="bg-white rounded-lg p-3 text-center">
+                <div className="text-2xl font-bold text-blue-600">{sourceInsight ? 1 : 0}</div>
+                <div className="text-xs text-gray-600 mt-1">Source Insight</div>
+              </div>
+              <div className="bg-white rounded-lg p-3 text-center">
+                <div className="text-2xl font-bold text-purple-600">{relatedPersonas.length}</div>
+                <div className="text-xs text-gray-600 mt-1">Personas Impacted</div>
+              </div>
+              <div className="bg-white rounded-lg p-3 text-center">
+                <div className="text-2xl font-bold text-orange-600">
+                  {action.milestones?.length || 0}
+                </div>
+                <div className="text-xs text-gray-600 mt-1">Milestones</div>
+              </div>
+            </div>
+            {!sourceInsight && (
+              <div className="mt-3 p-2 bg-yellow-50 border border-yellow-200 rounded text-xs text-yellow-800 flex items-center gap-2">
+                <span>⚠️</span>
+                <span>No source insight linked - Consider connecting to relevant research</span>
+              </div>
+            )}
+          </section>
+
           {/* Details */}
           <section>
             <h3 className="text-lg font-semibold text-gray-900 mb-3">

@@ -5,6 +5,7 @@ import {
   FiZap, 
   FiCheckSquare, 
   FiUsers,
+  FiLink,
   FiBarChart2,
   FiMessageSquare,
   FiTrendingUp 
@@ -16,6 +17,7 @@ const navigation = [
   { name: 'Insights', href: '/insights', icon: FiZap },
   { name: 'Actions', href: '/actions', icon: FiCheckSquare },
   { name: 'Personas', href: '/personas', icon: FiUsers },
+  { name: 'Connections', href: '/connections', icon: FiLink },
   { name: 'CSAT & NPS', href: '/csat', icon: FiBarChart2 },
   { name: 'Feedback', href: '/feedback', icon: FiMessageSquare, badge: 0 },
   { name: 'Suggestions', href: '/suggestions', icon: FiTrendingUp },

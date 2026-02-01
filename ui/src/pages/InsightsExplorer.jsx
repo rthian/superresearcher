@@ -427,6 +427,7 @@ function InsightsExplorer() {
           onClose={handleCloseModal}
           onViewAction={handleViewAction}
           navigationHistory={navigationHistory}
+          allInsights={insights}
         />
       )}
     </div>
