@@ -1,16 +1,39 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { FiX, FiArrowRight, FiUser, FiTarget, FiDownload, FiShare2, FiChevronLeft, FiPrinter } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { CATEGORY_COLORS, PRIORITY_COLORS } from '../../utils/constants';
 import toast from 'react-hot-toast';
 
-function InsightDetailModal({ insight, onClose, relatedActions = [], relatedPersonas = [], onViewAction, navigationHistory = [] }) {
+function InsightDetailModal({ insight, onClose, relatedActions = [], relatedPersonas = [], onViewAction, navigationHistory = [], allInsights = [] }) {
   const [actionFilter, setActionFilter] = useState('all');
 
   // Filtered related actions
   const filteredActions = actionFilter === 'all' 
     ? relatedActions 
     : relatedActions.filter(a => a.priority === actionFilter);
+
+  // Find related insights based on similarity - use useMemo to avoid hoisting issues
+  const relatedInsights = useMemo(() => {
+    return (allInsights || [])
+      .filter(i => i.id !== insight.id) // Exclude current insight
+      .map(i => {
+        let score = 0;
+        // Same category +3 points
+        if (i.category === insight.category) score += 3;
+        // Same product area +2 points
+        if (i.productArea && insight.productArea && i.productArea === insight.productArea) score += 2;
+        // Same customer segment +2 points
+        if (i.customerSegment && insight.customerSegment && i.customerSegment === insight.customerSegment) score += 2;
+        // Shared tags +1 point each
+        const sharedTags = (i.tags || []).filter(tag => (insight.tags || []).includes(tag));
+        score += sharedTags.length;
+        
+        return { insight: i, score, sharedTags };
+      })
+      .filter(item => item.score > 0) // Only show if some similarity
+      .sort((a, b) => b.score - a.score) // Sort by relevance
+      .slice(0, 5); // Top 5 most related
+  }, [allInsights, insight]);
 
   // Close on ESC key
   useEffect(() => {
@@ -181,6 +204,35 @@ ${relatedPersonas.length > 0 ? `## Related Personas (${relatedPersonas.length})\
             </section>
           )}
 
+          {/* Connection Stats */}
+          <section className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-4 border border-blue-200">
+            <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
+              🔗 Connections
+            </h3>
+            <div className="grid grid-cols-3 gap-4">
+              <div className="bg-white rounded-lg p-3 text-center">
+                <div className="text-2xl font-bold text-primary-600">{relatedActions.length}</div>
+                <div className="text-xs text-gray-600 mt-1">Actions Generated</div>
+              </div>
+              <div className="bg-white rounded-lg p-3 text-center">
+                <div className="text-2xl font-bold text-purple-600">{relatedPersonas.length}</div>
+                <div className="text-xs text-gray-600 mt-1">Personas Affected</div>
+              </div>
+              <div className="bg-white rounded-lg p-3 text-center">
+                <div className="text-2xl font-bold text-green-600">
+                  {insight.tags?.length || 0}
+                </div>
+                <div className="text-xs text-gray-600 mt-1">Tags</div>
+              </div>
+            </div>
+            {relatedActions.length === 0 && (
+              <div className="mt-3 p-2 bg-yellow-50 border border-yellow-200 rounded text-xs text-yellow-800 flex items-center gap-2">
+                <span>⚠️</span>
+                <span>No actions created yet - Consider adding action items for this insight</span>
+              </div>
+            )}
+          </section>
+
           {/* Metadata */}
           <section>
             <h3 className="text-lg font-semibold text-gray-900 mb-3">
@@ -321,6 +373,55 @@ ${relatedPersonas.length > 0 ? `## Related Personas (${relatedPersonas.length})\
                 <FiTarget className="w-12 h-12 text-gray-300 mx-auto mb-2" />
                 <p className="text-sm text-gray-500">No actions linked to this insight yet</p>
               </div>
+            </section>
+          )}
+
+          {/* Related Insights */}
+          {relatedInsights.length > 0 && (
+            <section>
+              <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                💡 Related Insights ({relatedInsights.length})
+              </h3>
+              <div className="space-y-3">
+                {relatedInsights.map(({ insight: relatedInsight, score, sharedTags }) => (
+                  <div
+                    key={relatedInsight.id}
+                    className="border border-gray-200 rounded-lg p-4 hover:border-primary-300 hover:shadow-sm transition-all cursor-pointer"
+                    onClick={() => {
+                      // Replace current insight with related one
+                      window.location.href = `/insights?ids=${relatedInsight.id}`;
+                    }}
+                  >
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="flex-1">
+                        <h4 className="font-medium text-gray-900">{relatedInsight.title}</h4>
+                        <div className="flex flex-wrap gap-2 mt-2">
+                          <span className={`badge text-xs ${CATEGORY_COLORS[relatedInsight.category] || 'bg-gray-100 text-gray-800'}`}>
+                            {relatedInsight.category}
+                          </span>
+                          {sharedTags.length > 0 && (
+                            <span className="badge bg-green-100 text-green-700 text-xs">
+                              {sharedTags.length} shared tag{sharedTags.length > 1 ? 's' : ''}
+                            </span>
+                          )}
+                          {relatedInsight.productArea === insight.productArea && (
+                            <span className="badge bg-blue-100 text-blue-700 text-xs">
+                              Same area
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <FiArrowRight className="w-5 h-5 text-gray-400 flex-shrink-0 ml-2" />
+                    </div>
+                    {relatedInsight.evidence && (
+                      <p className="text-sm text-gray-600 line-clamp-2">{relatedInsight.evidence}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+              <p className="text-xs text-gray-500 mt-3">
+                💡 Click any insight to explore the connection
+              </p>
             </section>
           )}
 

@@ -263,6 +263,7 @@ function ActionCenter() {
           onClose={handleCloseModal}
           onViewAction={handleViewAction}
           navigationHistory={navigationHistory}
+          allInsights={allInsights?.insights || []}
         />
       )}
     </div>
