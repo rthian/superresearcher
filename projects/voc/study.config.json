@@ -4,11 +4,14 @@
   "slug": "voc",
   "type": "voc-quarterly",
   "organization": "Multi-Org",
-  "organizations": ["GXS", "GXB"],
+  "organizations": [
+    "GXS",
+    "GXB"
+  ],
   "quarter": "Q1 2026",
   "createdAt": "2026-01-31T03:08:35.296Z",
-  "updatedAt": "2026-01-31T03:08:35.296Z",
-  "status": "Planning",
+  "updatedAt": "2026-02-10T02:43:20.429Z",
+  "status": "Active",
   "archived": false,
   "notion": {
     "enabled": false,
@@ -40,5 +43,6 @@
     ],
     "recurring": true,
     "frequency": "quarterly"
-  }
+  },
+  "archivedAt": null
 }
