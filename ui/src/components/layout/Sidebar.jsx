@@ -8,7 +8,9 @@ import {
   FiLink,
   FiBarChart2,
   FiMessageSquare,
-  FiTrendingUp 
+  FiTrendingUp,
+  FiTarget,
+  FiGlobe,
 } from 'react-icons/fi';
 
 const navigation = [
@@ -19,6 +21,8 @@ const navigation = [
   { name: 'Personas', href: '/personas', icon: FiUsers },
   { name: 'Connections', href: '/connections', icon: FiLink },
   { name: 'CSAT & NPS', href: '/csat', icon: FiBarChart2 },
+  { name: 'ROI Tracker', href: '/roi', icon: FiTarget },
+  { name: 'Competitive Intel', href: '/competitive', icon: FiGlobe },
   { name: 'Feedback', href: '/feedback', icon: FiMessageSquare, badge: 0 },
   { name: 'Suggestions', href: '/suggestions', icon: FiTrendingUp },
 ];

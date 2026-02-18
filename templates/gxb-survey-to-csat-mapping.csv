@@ -1,0 +1,8 @@
+period,organization,dimension,product,score,responses,survey_question,verbatim
+2026-Q1,GXB,casa-csat,GX Account,8.2,831,"Overall, how satisfied are you with the GX Account?","Sample verbatim from What did you like"
+2026-Q1,GXB,bank-csat,GXBank,8.5,831,"Overall, how satisfied are you with GXBank?","Sample verbatim from How can we improve"
+2026-Q1,GXB,bonus-pocket-csat,Bonus Pocket,7.8,831,"Overall how satisfied are you with the Bonus Pocket feature?",""
+2026-Q1,GXB,product-quality-design,GXBank,8.1,831,"The visual design of the GXBank app appealed to me",""
+2026-Q1,GXB,product-quality-ease-transaction,GXBank,8.3,831,"It was easy to perform transactions on the GXBank app",""
+2026-Q1,GXB,product-quality-ease-navigation,GXBank,8.0,831,"It was easy to find what I needed on the GXBank app",""
+2026-Q1,GXB,product-quality-responsive,GXBank,8.4,831,"The GXBank app is fast and responsive",""

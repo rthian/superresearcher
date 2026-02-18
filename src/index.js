@@ -14,6 +14,20 @@ import { doctorCommand } from './commands/doctor.js';
 import { analyzeCommand } from './commands/analyze.js';
 import { vocChunkToJsonCommand, vocConvertToChunksCommand } from './commands/voc.js';
 import { serveCommand } from './commands/serve.js';
+import { reportCommand } from './commands/report.js';
+import {
+  competitiveListCommand,
+  competitiveAddFeatureCommand,
+  competitiveAddPricingCommand,
+  competitiveAddReleaseCommand,
+  competitiveAddPerceptionCommand,
+  competitiveSummaryCommand,
+} from './commands/competitive.js';
+import {
+  roiTrackCommand,
+  roiStatusCommand,
+  roiReportCommand,
+} from './commands/roi.js';
 import { VERSION } from './config/constants.js';
 
 // Load environment variables
@@ -106,6 +120,12 @@ program
   .description('Check if everything is set up correctly')
   .action(doctorCommand);
 
+// Report command - Generate report templates
+program
+  .command('report <type> [period]')
+  .description('Generate report: strategic-brief (quarterly) or insight-backlog (monthly)')
+  .action(reportCommand);
+
 // Serve command - Start web UI server
 program
   .command('serve')
@@ -133,6 +153,91 @@ vocCommand
   .option('--agent', 'Run with Cursor Agent automatically')
   .option('--no-telemetry', 'Disable anonymous usage analytics')
   .action(vocChunkToJsonCommand);
+
+// Competitive intelligence commands
+const compCommand = program
+  .command('competitive')
+  .description('Competitive intelligence tracking commands');
+
+compCommand
+  .command('list')
+  .description('List all tracked competitors')
+  .action(competitiveListCommand);
+
+compCommand
+  .command('add-feature')
+  .description('Add or update a feature for a competitor')
+  .option('--name <name>', 'Feature name')
+  .option('--category <category>', 'Feature category (savings, payments, lending, cards, rewards, onboarding, investments, insurance, ux, support)')
+  .option('--competitor <id>', 'Competitor ID')
+  .option('--status <status>', 'Status: available, planned, not-available, unknown')
+  .option('--notes <notes>', 'Additional notes')
+  .action(competitiveAddFeatureCommand);
+
+compCommand
+  .command('add-pricing')
+  .description('Log a pricing change')
+  .option('--competitor <id>', 'Competitor ID')
+  .option('--category <category>', 'Category (savings, lending, cards, etc.)')
+  .option('--product <product>', 'Product name')
+  .option('--previous <value>', 'Previous value')
+  .option('--current <value>', 'New/current value')
+  .option('--source <source>', 'Data source')
+  .option('--notes <notes>', 'Additional notes')
+  .action(competitiveAddPricingCommand);
+
+compCommand
+  .command('add-release')
+  .description('Log a competitor feature release')
+  .option('--competitor <id>', 'Competitor ID')
+  .option('--feature <feature>', 'Feature name')
+  .option('--category <category>', 'Feature category')
+  .option('--date <date>', 'Release date (YYYY-MM-DD)')
+  .option('--source <source>', 'Data source')
+  .option('--impact <impact>', 'Impact level: High, Medium, Low')
+  .option('--notes <notes>', 'Additional notes')
+  .action(competitiveAddReleaseCommand);
+
+compCommand
+  .command('add-perception')
+  .description('Log a customer perception theme')
+  .option('--competitor <id>', 'Competitor ID (or gxs/gxb)')
+  .option('--theme <theme>', 'Perception theme')
+  .option('--sentiment <sentiment>', 'Sentiment: positive, negative, mixed')
+  .option('--source <source>', 'Data source')
+  .option('--period <period>', 'Period (e.g. 2026-Q1)')
+  .option('--summary <summary>', 'Brief summary')
+  .option('--verbatim <verbatim>', 'Sample verbatim quote')
+  .action(competitiveAddPerceptionCommand);
+
+compCommand
+  .command('summary [period]')
+  .description('Generate quarterly competitive intelligence summary')
+  .action(competitiveSummaryCommand);
+
+// ROI tracking commands
+const roiCommand = program
+  .command('roi')
+  .description('Close-the-loop ROI tracking: link actions to CSAT/NPS outcomes');
+
+roiCommand
+  .command('track')
+  .description('Link an implemented action to a CSAT/NPS measurement period')
+  .option('--action-id <id>', 'Action ID (e.g. action-001)')
+  .option('--project <slug>', 'Project slug')
+  .option('--period <period>', 'Implementation period (e.g. 2026-Q1)')
+  .option('--organization <org>', 'Organization (GXS, GXB) for org-level metrics')
+  .action(roiTrackCommand);
+
+roiCommand
+  .command('status')
+  .description('Show all tracked actions and their metric impact')
+  .action(roiStatusCommand);
+
+roiCommand
+  .command('report [period]')
+  .description('Generate ROI report showing action impact on CSAT/NPS')
+  .action(roiReportCommand);
 
 // Parse arguments
 program.parse();

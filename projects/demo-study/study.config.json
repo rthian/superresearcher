@@ -5,9 +5,9 @@
   "type": "mixed-methods",
   "organization": "GXS",
   "createdAt": "2026-01-06T08:00:00.000Z",
-  "updatedAt": "2026-02-10T02:43:12.997Z",
-  "status": "Active",
-  "archived": false,
+  "updatedAt": "2026-02-13T04:03:32.696Z",
+  "status": "Archived",
+  "archived": true,
   "notion": {
     "enabled": false,
     "studyPageId": null,
@@ -36,5 +36,5 @@
     "latestNPS": null,
     "linkedMetricId": null
   },
-  "archivedAt": null
+  "archivedAt": "2026-02-13T04:03:32.696Z"
 }
