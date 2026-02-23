@@ -34,9 +34,9 @@
 - `ANALYSIS_SUMMARY.md` - Executive summary for leadership (8 KB)
 
 ### AI Prompts (Ready to Use)
-- `.prompts/extract.md` - Used to extract insights ✅
-- `.prompts/action.md` - Use to generate action items ⏭️
-- `.prompts/persona.md` - Use to update personas ⏭️
+- `prompts/extract.md` - Used to extract insights ✅
+- `prompts/action.md` - Use to generate action items ⏭️
+- `prompts/persona.md` - Use to update personas ⏭️
 
 ### Documentation
 - `../../docs/VoC_Workflow_Guide.md` - Complete workflow guide
@@ -51,7 +51,7 @@
 **Generate Actions:**
 ```bash
 # Already done - prompt is ready at:
-# projects/appstore/.prompts/action.md
+# projects/appstore/prompts/action.md
 
 # To use: Copy content to Claude or use in Cursor
 # Save output to: projects/appstore/actions/actions.json
@@ -60,7 +60,7 @@
 **Generate Personas:**
 ```bash
 # Already done - prompt is ready at:
-# projects/appstore/.prompts/persona.md
+# projects/appstore/prompts/persona.md
 
 # To use: Copy content to Claude or use in Cursor
 # Save output to: projects/appstore/personas/updates.json
@@ -198,7 +198,7 @@ superresearcher --help
 superresearcher action --help
 
 # View specific prompt
-cat .prompts/action.md | less
+cat prompts/action.md | less
 ```
 
 ---

@@ -7,7 +7,7 @@ import { getProjectDir } from './files.js';
  */
 export async function writePrompt(projectName, promptType, content) {
   const projectDir = getProjectDir(projectName);
-  const promptsDir = path.join(projectDir, '.prompts');
+  const promptsDir = path.join(projectDir, 'prompts');
   await fs.ensureDir(promptsDir);
   
   const promptPath = path.join(promptsDir, `${promptType}.md`);

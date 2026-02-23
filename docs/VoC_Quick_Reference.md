@@ -10,7 +10,7 @@
 1. Organize    → projects/{slug}/context/transcripts/
 2. Chunk       → superresearcher voc convert-to-chunks <file> --chunk-size 25
 3. Prompt      → superresearcher prompts generate {slug} extract
-4. Extract     → Copy .prompts/extract.md to Claude → Save to insights/insights.json
+4. Extract     → Copy prompts/extract.md to Claude → Save to insights/insights.json
 5. Actions     → superresearcher actions generate {slug}
 6. Personas    → superresearcher personas update {slug}
 ```
@@ -27,7 +27,7 @@ projects/{slug}/
 │   └── transcripts/
 │       ├── reviews_q1.md          # Raw data (immutable)
 │       └── reviews_q1_chunks/     # Generated chunks
-├── .prompts/
+├── prompts/
 │   └── extract.md                 # Generated: AI extraction prompt
 ├── insights/
 │   ├── insights.json              # Generated: Structured insights

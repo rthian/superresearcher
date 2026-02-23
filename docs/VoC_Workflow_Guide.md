@@ -96,7 +96,7 @@ superresearcher extract appstore
 - Reads all transcripts from `context/transcripts/`
 - Reads study metadata from `context/study.md` and `context/methodology.md`
 - Combines into comprehensive extraction prompt
-- Saves to `projects/appstore/.prompts/extract.md`
+- Saves to `projects/appstore/prompts/extract.md`
 
 **Prompt includes:**
 1. Study context (objectives, methodology)
@@ -132,7 +132,7 @@ superresearcher extract appstore
 **Two approaches:**
 
 #### A. Manual (Copy/Paste to Claude)
-1. Open `.prompts/extract.md`
+1. Open `prompts/extract.md`
 2. Copy entire content
 3. Paste into Claude/ChatGPT
 4. Review AI-generated insights
@@ -242,7 +242,7 @@ done
 superresearcher prompts generate appstore extract
 
 # Step 3: Extract insights (manual with AI)
-# - Open .prompts/extract.md
+# - Open prompts/extract.md
 # - Copy to Claude
 # - Save output to insights/insights.json
 

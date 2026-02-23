@@ -34,7 +34,7 @@ coverage/
 # Temporary files
 *.tmp
 *.temp
-.prompts/*.bak
+projects/**/prompts/*.bak
 
 # Project data (keep studies private by default)
 # Ignore all files in projects except .gitkeep files
@@ -49,10 +49,8 @@ projects/**/context/reports/*.docx
 projects/**/context/surveys/*.csv
 projects/**/context/surveys/*.json
 projects/**/context/surveys/*.xlsx
-projects/**/study.md
-projects/**/methodology.md
 projects/**/feedback.json
-projects/**/.prompts/*
+projects/**/prompts/*
 
 # But keep directory structure with .gitkeep files
 !projects/**/.gitkeep

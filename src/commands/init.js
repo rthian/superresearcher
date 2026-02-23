@@ -47,7 +47,7 @@ export async function initCommand(name, options) {
       'insights',
       'personas',
       'actions',
-      '.prompts'
+      'prompts'
     ];
     
     for (const dir of directories) {
