@@ -1,0 +1,58 @@
+{
+  "lastUpdated": "2026-02-12T09:17:04.700Z",
+  "description": "Links implemented actions to CSAT/NPS metric changes to prove ROI",
+  "trackedActions": [
+    {
+      "actionId": "action-001",
+      "project": "appstore",
+      "actionTitle": "Emergency fix for bank account linking dropdown bug",
+      "priority": "Critical",
+      "department": "Engineering",
+      "sourceInsight": "insight-003",
+      "organization": "GXS",
+      "implementedPeriod": "2025-Q4",
+      "previousPeriod": "2025-Q3",
+      "metrics": {
+        "csat": {
+          "before": 8,
+          "after": 7.95,
+          "delta": -0.05
+        },
+        "nps": {
+          "before": 22,
+          "after": 26,
+          "delta": 4
+        }
+      },
+      "successMetrics": "Bank linking success rate reaches 95%+ within 48 hours of fix deployment. Zero reports of empty dropdown in subsequent week. Error logging captures 100% of linking attempts.",
+      "trackedAt": "2026-02-12T09:17:01.215Z",
+      "notes": ""
+    },
+    {
+      "actionId": "action-002",
+      "project": "appstore",
+      "actionTitle": "Implement proactive account freeze notification system",
+      "priority": "Critical",
+      "department": "Product",
+      "sourceInsight": "insight-002",
+      "organization": "GXS",
+      "implementedPeriod": "2025-Q4",
+      "previousPeriod": "2025-Q3",
+      "metrics": {
+        "csat": {
+          "before": 8,
+          "after": 7.95,
+          "delta": -0.05
+        },
+        "nps": {
+          "before": 22,
+          "after": 26,
+          "delta": 4
+        }
+      },
+      "successMetrics": "100% of account freezes include prior notification (where legally permissible). Negative reviews mentioning surprise freezes decrease by 80%. Support tickets for frozen accounts decrease by 50% due to proactive communication.",
+      "trackedAt": "2026-02-12T09:17:04.699Z",
+      "notes": ""
+    }
+  ]
+}

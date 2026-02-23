@@ -26,7 +26,7 @@ projects/<study-name>/
 │   └── updates.md/json   # Persona updates from this study
 ├── actions/
 │   └── actions.md/json   # Generated action items
-└── .prompts/             # Generated AI prompts
+└── prompts/              # Generated AI prompts
 
 shared/
 ├── personas/             # Global persona definitions

@@ -1,0 +1,125 @@
+{
+  "lastUpdated": "2026-02-12T00:00:00.000Z",
+  "competitors": [
+    {
+      "id": "maybank",
+      "name": "Maybank",
+      "type": "incumbent",
+      "market": "MY",
+      "segment": "Full-service bank",
+      "products": ["savings", "lending", "cards", "payments", "investments", "insurance"],
+      "appStoreId": null,
+      "playStoreId": null,
+      "website": "https://www.maybank2u.com.my",
+      "notes": ""
+    },
+    {
+      "id": "cimb",
+      "name": "CIMB",
+      "type": "incumbent",
+      "market": "MY",
+      "segment": "Full-service bank",
+      "products": ["savings", "lending", "cards", "payments", "investments", "insurance"],
+      "appStoreId": null,
+      "playStoreId": null,
+      "website": "https://www.cimb.com.my",
+      "notes": ""
+    },
+    {
+      "id": "touch-n-go",
+      "name": "Touch 'n Go Digital",
+      "type": "fintech",
+      "market": "MY",
+      "segment": "E-wallet / payments",
+      "products": ["payments", "rewards", "investments", "insurance"],
+      "appStoreId": null,
+      "playStoreId": null,
+      "website": "https://www.tngdigital.com.my",
+      "notes": ""
+    },
+    {
+      "id": "boost",
+      "name": "Boost",
+      "type": "fintech",
+      "market": "MY",
+      "segment": "E-wallet / payments",
+      "products": ["payments", "rewards", "lending"],
+      "appStoreId": null,
+      "playStoreId": null,
+      "website": "https://www.myboost.com.my",
+      "notes": ""
+    },
+    {
+      "id": "dbs",
+      "name": "DBS",
+      "type": "incumbent",
+      "market": "SG",
+      "segment": "Full-service bank",
+      "products": ["savings", "lending", "cards", "payments", "investments", "insurance"],
+      "appStoreId": null,
+      "playStoreId": null,
+      "website": "https://www.dbs.com.sg",
+      "notes": ""
+    },
+    {
+      "id": "ocbc",
+      "name": "OCBC",
+      "type": "incumbent",
+      "market": "SG",
+      "segment": "Full-service bank",
+      "products": ["savings", "lending", "cards", "payments", "investments", "insurance"],
+      "appStoreId": null,
+      "playStoreId": null,
+      "website": "https://www.ocbc.com",
+      "notes": ""
+    },
+    {
+      "id": "uob",
+      "name": "UOB",
+      "type": "incumbent",
+      "market": "SG",
+      "segment": "Full-service bank",
+      "products": ["savings", "lending", "cards", "payments", "investments", "insurance"],
+      "appStoreId": null,
+      "playStoreId": null,
+      "website": "https://www.uob.com.sg",
+      "notes": ""
+    },
+    {
+      "id": "trust-bank",
+      "name": "Trust Bank",
+      "type": "digital-bank",
+      "market": "SG",
+      "segment": "Digital bank (Standard Chartered + FairPrice)",
+      "products": ["savings", "cards", "rewards", "payments"],
+      "appStoreId": null,
+      "playStoreId": null,
+      "website": "https://trustbank.sg",
+      "notes": "Joint venture between Standard Chartered and FairPrice Group"
+    },
+    {
+      "id": "maribank",
+      "name": "MariBank",
+      "type": "digital-bank",
+      "market": "SG",
+      "segment": "Digital bank (Sea Group)",
+      "products": ["savings", "lending"],
+      "appStoreId": null,
+      "playStoreId": null,
+      "website": "https://www.maribank.sg",
+      "notes": "Backed by Sea Group (Shopee)"
+    }
+  ],
+  "featureCategories": [
+    { "id": "savings", "name": "Savings", "description": "Interest rates, pockets, term deposits" },
+    { "id": "payments", "name": "Payments", "description": "Transfers, QR, Apple/Google Pay, GIRO" },
+    { "id": "lending", "name": "Lending", "description": "Personal loans, BNPL, credit lines" },
+    { "id": "cards", "name": "Cards", "description": "Debit, credit, virtual cards" },
+    { "id": "rewards", "name": "Rewards & Cashback", "description": "Cashback, points, promotions" },
+    { "id": "onboarding", "name": "Onboarding / KYC", "description": "Registration, eKYC, verification" },
+    { "id": "investments", "name": "Investments", "description": "Robo-advisory, funds, stocks" },
+    { "id": "insurance", "name": "Insurance", "description": "Micro-insurance, protection products" },
+    { "id": "ux", "name": "UX / App Experience", "description": "Design, navigation, performance" },
+    { "id": "support", "name": "Customer Support", "description": "Chat, phone, response times" }
+  ]
+}

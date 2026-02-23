@@ -5,7 +5,7 @@
   "type": "mixed-methods",
   "organization": "GXS",
   "createdAt": "2026-01-06T08:00:00.000Z",
-  "updatedAt": "2026-01-31T03:27:20.894Z",
+  "updatedAt": "2026-02-13T04:03:32.696Z",
   "status": "Archived",
   "archived": true,
   "notion": {
@@ -36,5 +36,5 @@
     "latestNPS": null,
     "linkedMetricId": null
   },
-  "archivedAt": "2026-01-31T03:27:20.894Z"
+  "archivedAt": "2026-02-13T04:03:32.696Z"
 }

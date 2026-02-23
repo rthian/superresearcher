@@ -168,7 +168,7 @@ The extraction is a two-step process:
 ```bash
 # Step 1: Generate the prompt
 superresearcher extract appstore
-# This creates: projects/appstore/.prompts/extract.md
+# This creates: projects/appstore/prompts/extract.md
 
 # Step 2: Run the prompt with AI
 # Option A: Open extract.md in Cursor and run with AI
@@ -308,7 +308,7 @@ superresearcher/
 │       │   └── insights.md
 │       ├── actions/
 │       │   └── actions.json
-│       └── .prompts/
+│       └── prompts/
 │           ├── extract.md
 │           ├── action.md
 │           └── persona.md

@@ -1,0 +1,27 @@
+{
+  "id": "voc-appstore-gxb-001",
+  "name": "GXB App Store Reviews",
+  "slug": "voc-appstore-gxb",
+  "type": "interview",
+  "organization": "GXB",
+  "source": "appbot",
+  "createdAt": "2026-02-10T00:00:00.000Z",
+  "updatedAt": "2026-02-10T00:00:00.000Z",
+  "status": "Active",
+  "notion": {
+    "enabled": false,
+    "studyPageId": null,
+    "insightsDatabaseId": null
+  },
+  "metadata": {
+    "participants": 0,
+    "startDate": null,
+    "endDate": null,
+    "owner": "Customer Insights Team",
+    "cadence": "monthly",
+    "dataFormat": "markdown",
+    "namingPattern": "{company}_{platform}_q{quarter}{year}.md"
+  },
+  "archived": false,
+  "archivedAt": null
+}

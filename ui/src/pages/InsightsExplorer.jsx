@@ -86,30 +86,6 @@ function InsightsExplorer() {
     setNavigationHistory([]);
   };
 
-  // Keyboard navigation for insights
-  useEffect(() => {
-    if (!selectedInsight || selectedAction) return;
-
-    const handleKeyNav = (e) => {
-      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-        const currentIndex = filteredInsights.findIndex(i => i.id === selectedInsight.id);
-        if (currentIndex === -1) return;
-
-        let nextIndex;
-        if (e.key === 'ArrowRight') {
-          nextIndex = (currentIndex + 1) % filteredInsights.length;
-        } else {
-          nextIndex = (currentIndex - 1 + filteredInsights.length) % filteredInsights.length;
-        }
-
-        setSelectedInsight(filteredInsights[nextIndex]);
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyNav);
-    return () => window.removeEventListener('keydown', handleKeyNav);
-  }, [selectedInsight, selectedAction, filteredInsights]);
-
   // Update URL params when filters change
   useEffect(() => {
     const params = new URLSearchParams();
@@ -121,7 +97,7 @@ function InsightsExplorer() {
     setSearchParams(params, { replace: true });
   }, [filterCategory, filterImpact, filterProject, filterOrganization, filterInsightIds, setSearchParams]);
 
-  // Apply filters
+  // Apply filters (must be defined before useEffect that references filteredInsights)
   let filteredInsights = [...insights];
   
   // Filter by specific insight IDs if provided (from persona page)
@@ -163,6 +139,30 @@ function InsightsExplorer() {
   const impactLevels = ['all', ...new Set(insights.map(i => i.impactLevel).filter(Boolean))];
   const projects = ['all', ...new Set(insights.map(i => i.projectSlug).filter(Boolean))];
   const organizations = ['all', ...new Set(insights.map(i => i.organization).filter(Boolean))];
+
+  // Keyboard navigation for insights (must be after filteredInsights is defined)
+  useEffect(() => {
+    if (!selectedInsight || selectedAction) return;
+
+    const handleKeyNav = (e) => {
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        const currentIndex = filteredInsights.findIndex(i => i.id === selectedInsight.id);
+        if (currentIndex === -1) return;
+
+        let nextIndex;
+        if (e.key === 'ArrowRight') {
+          nextIndex = (currentIndex + 1) % filteredInsights.length;
+        } else {
+          nextIndex = (currentIndex - 1 + filteredInsights.length) % filteredInsights.length;
+        }
+
+        setSelectedInsight(filteredInsights[nextIndex]);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyNav);
+    return () => window.removeEventListener('keydown', handleKeyNav);
+  }, [selectedInsight, selectedAction, filteredInsights]);
 
   const handleExport = (format) => {
     if (filteredInsights.length === 0) {

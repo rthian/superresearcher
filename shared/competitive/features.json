@@ -1,0 +1,60 @@
+{
+  "lastUpdated": "2026-02-12T00:00:00.000Z",
+  "description": "Feature matrix: competitor × feature × status. Status: available | planned | not-available | unknown",
+  "features": [
+    {
+      "id": "apple-pay",
+      "name": "Apple Pay",
+      "category": "payments",
+      "competitors": {
+        "gxs": { "status": "not-available", "notes": "Top user request", "asOf": "2026-Q1" },
+        "gxb": { "status": "not-available", "notes": "Users requesting", "asOf": "2026-Q1" },
+        "dbs": { "status": "available", "notes": "", "asOf": "2025-Q1" },
+        "ocbc": { "status": "available", "notes": "", "asOf": "2025-Q1" },
+        "uob": { "status": "available", "notes": "", "asOf": "2025-Q1" },
+        "trust-bank": { "status": "available", "notes": "", "asOf": "2025-Q1" },
+        "maribank": { "status": "not-available", "notes": "", "asOf": "2026-Q1" },
+        "maybank": { "status": "available", "notes": "", "asOf": "2025-Q1" },
+        "cimb": { "status": "available", "notes": "", "asOf": "2025-Q1" },
+        "touch-n-go": { "status": "not-available", "notes": "E-wallet only", "asOf": "2026-Q1" },
+        "boost": { "status": "not-available", "notes": "E-wallet only", "asOf": "2026-Q1" }
+      }
+    },
+    {
+      "id": "google-pay",
+      "name": "Google Pay",
+      "category": "payments",
+      "competitors": {
+        "gxs": { "status": "not-available", "notes": "", "asOf": "2026-Q1" },
+        "gxb": { "status": "not-available", "notes": "", "asOf": "2026-Q1" },
+        "dbs": { "status": "available", "notes": "", "asOf": "2025-Q1" },
+        "ocbc": { "status": "available", "notes": "", "asOf": "2025-Q1" },
+        "uob": { "status": "available", "notes": "", "asOf": "2025-Q1" },
+        "trust-bank": { "status": "available", "notes": "", "asOf": "2025-Q1" },
+        "maribank": { "status": "not-available", "notes": "", "asOf": "2026-Q1" },
+        "maybank": { "status": "available", "notes": "", "asOf": "2025-Q1" },
+        "cimb": { "status": "available", "notes": "", "asOf": "2025-Q1" },
+        "touch-n-go": { "status": "not-available", "notes": "", "asOf": "2026-Q1" },
+        "boost": { "status": "not-available", "notes": "", "asOf": "2026-Q1" }
+      }
+    },
+    {
+      "id": "savings-pockets",
+      "name": "Savings Pockets / Sub-accounts",
+      "category": "savings",
+      "competitors": {
+        "gxs": { "status": "available", "notes": "Praised by users", "asOf": "2026-Q1" },
+        "gxb": { "status": "available", "notes": "Bonus Pocket", "asOf": "2026-Q1" },
+        "dbs": { "status": "available", "notes": "DBS digiPortfolio goals", "asOf": "2025-Q1" },
+        "ocbc": { "status": "available", "notes": "", "asOf": "2025-Q1" },
+        "uob": { "status": "unknown", "notes": "", "asOf": "2026-Q1" },
+        "trust-bank": { "status": "not-available", "notes": "", "asOf": "2026-Q1" },
+        "maribank": { "status": "not-available", "notes": "", "asOf": "2026-Q1" },
+        "maybank": { "status": "not-available", "notes": "", "asOf": "2026-Q1" },
+        "cimb": { "status": "not-available", "notes": "", "asOf": "2026-Q1" },
+        "touch-n-go": { "status": "available", "notes": "GO+ goals", "asOf": "2025-Q1" },
+        "boost": { "status": "not-available", "notes": "", "asOf": "2026-Q1" }
+      }
+    }
+  ]
+}

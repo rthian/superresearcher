@@ -13,6 +13,8 @@ import ConnectionsDashboard from './pages/ConnectionsDashboard';
 import FeedbackInbox from './pages/FeedbackInbox';
 import SuggestionsBoard from './pages/SuggestionsBoard';
 import AdminAnalytics from './pages/AdminAnalytics';
+import ROITracker from './pages/ROITracker';
+import CompetitiveIntel from './pages/CompetitiveIntel';
 import { ShortcutHelp } from './components/ui/kbd';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 
@@ -41,6 +43,8 @@ function App() {
         <Route path="personas/:id" element={<PersonaDetail />} />
         <Route path="connections" element={<ConnectionsDashboard />} />
         <Route path="csat" element={<CSATDashboard />} />
+        <Route path="roi" element={<ROITracker />} />
+        <Route path="competitive" element={<CompetitiveIntel />} />
         <Route path="feedback" element={<FeedbackInbox />} />
         <Route path="suggestions" element={<SuggestionsBoard />} />
         <Route path="admin/analytics" element={<AdminAnalytics />} />

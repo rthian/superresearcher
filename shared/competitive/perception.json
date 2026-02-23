@@ -1,0 +1,54 @@
+{
+  "lastUpdated": "2026-02-12T00:00:00.000Z",
+  "description": "Customer perception themes from reviews, NPS verbatims, and market research",
+  "entries": [
+    {
+      "id": "perc-001",
+      "competitor": "gxs",
+      "market": "SG",
+      "theme": "Superior UI/UX",
+      "sentiment": "positive",
+      "source": "appstore",
+      "period": "2025-Q1",
+      "summary": "Users consistently praise UI/UX as miles ahead of incumbent banks",
+      "verbatimCount": 15,
+      "sampleVerbatim": "The app design is so clean compared to DBS or OCBC"
+    },
+    {
+      "id": "perc-002",
+      "competitor": "gxs",
+      "market": "SG",
+      "theme": "Account freezing trust issue",
+      "sentiment": "negative",
+      "source": "appstore",
+      "period": "2025-Q2",
+      "summary": "Account freezes without notice cause severe trust damage and negative reviews",
+      "verbatimCount": 8,
+      "sampleVerbatim": "My account was frozen with no warning and support took weeks to resolve"
+    },
+    {
+      "id": "perc-003",
+      "competitor": "gxb",
+      "market": "MY",
+      "theme": "Easy to use",
+      "sentiment": "positive",
+      "source": "appstore",
+      "period": "2025-Q1",
+      "summary": "Users find GXB simple and user-friendly compared to traditional banks",
+      "verbatimCount": 20,
+      "sampleVerbatim": "Simple and easy. Best experience so far."
+    },
+    {
+      "id": "perc-004",
+      "competitor": "gxb",
+      "market": "MY",
+      "theme": "Onboarding failures",
+      "sentiment": "negative",
+      "source": "appstore",
+      "period": "2025-Q1",
+      "summary": "IC capture failures, OTP not received, registration errors blocking new users",
+      "verbatimCount": 12,
+      "sampleVerbatim": "Cannot proceed to capture back side of IC. Should be no star given."
+    }
+  ]
+}

@@ -10,6 +10,9 @@ import statsRouter from './routes/stats.js';
 import feedbackRouter from './routes/feedback.js';
 import suggestionsRouter from './routes/suggestions.js';
 import csatRouter from './routes/csat.js';
+import roiRouter from './routes/roi.js';
+import competitiveRouter from './routes/competitive.js';
+import { authMiddleware, adminOnly, roleInfoEndpoint } from './middleware/auth.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -21,16 +24,24 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Auth middleware (disabled by default; set AUTH_MODE=token in .env to enable)
+app.use('/api', authMiddleware);
+
+// Role info endpoint (UI calls this to adapt)
+app.get('/api/auth/role', roleInfoEndpoint);
+
 // Debug endpoint
 app.get('/api/debug/info', (req, res) => {
   res.json({
     cwd: process.cwd(),
     projectsPath: path.join(process.cwd(), 'projects'),
-    nodeEnv: process.env.NODE_ENV
+    nodeEnv: process.env.NODE_ENV,
+    authMode: process.env.AUTH_MODE || 'disabled',
+    role: req.userRole,
   });
 });
 
-// API Routes
+// API Routes -- read-only (all roles)
 app.use('/api/projects', projectsRouter);
 app.use('/api/insights', insightsRouter);
 app.use('/api/actions', actionsRouter);
@@ -39,7 +50,11 @@ app.use('/api/stats', statsRouter);
 app.use('/api/feedback', feedbackRouter);
 app.use('/api/research-suggestions', suggestionsRouter);
 app.use('/api/csat', csatRouter);
-app.use('/api/admin/csat', csatRouter); // Admin endpoints under same router
+app.use('/api/roi', roiRouter);
+app.use('/api/competitive', competitiveRouter);
+
+// Admin-only routes (write operations)
+app.use('/api/admin/csat', adminOnly, csatRouter);
 
 // Serve static UI files (will be built by Vite)
 const uiDistPath = path.join(__dirname, '../ui/dist');

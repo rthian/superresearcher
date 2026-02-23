@@ -1,4 +1,4 @@
-# SuperResearcher
+# SuperResearcher Read
 
 SuperResearcher is a customer insights research workflow that runs inside Cursor, transforming raw research data into actionable insights, informed personas, and prioritized action items.
 

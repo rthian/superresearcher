@@ -1,0 +1,28 @@
+{
+  "lastUpdated": "2026-02-12T09:10:54.190Z",
+  "description": "Competitor feature release timeline",
+  "releases": [
+    {
+      "id": "rel-001",
+      "competitor": "trust-bank",
+      "market": "SG",
+      "feature": "Credit card launch",
+      "category": "cards",
+      "date": "2025-06-01",
+      "source": "Press release",
+      "impact": "Medium",
+      "notes": "Trust Bank launched credit card with FairPrice cashback"
+    },
+    {
+      "id": "rel-002",
+      "competitor": "dbs",
+      "market": "SG",
+      "feature": "DBS PayLah P2P lending",
+      "category": "lending",
+      "date": "2026-01-15",
+      "source": "manual",
+      "impact": "High",
+      "notes": ""
+    }
+  ]
+}

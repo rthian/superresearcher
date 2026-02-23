@@ -5,7 +5,7 @@
   "type": "interview",
   "organization": "GXB",
   "createdAt": "2026-01-20T06:30:02.012Z",
-  "updatedAt": "2026-01-31T03:27:23.425Z",
+  "updatedAt": "2026-02-13T04:03:37.435Z",
   "status": "Archived",
   "notion": {
     "enabled": false,
@@ -19,5 +19,5 @@
     "owner": null
   },
   "archived": true,
-  "archivedAt": "2026-01-31T03:27:23.425Z"
+  "archivedAt": "2026-02-13T04:03:37.435Z"
 }

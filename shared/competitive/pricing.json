@@ -1,0 +1,34 @@
+{
+  "lastUpdated": "2026-02-12T00:00:00.000Z",
+  "description": "Pricing changes over time: interest rates, fees, promotions",
+  "entries": [
+    {
+      "id": "pricing-001",
+      "competitor": "gxs",
+      "market": "SG",
+      "category": "savings",
+      "type": "rate-change",
+      "product": "Savings Account",
+      "previousValue": "2.98% p.a.",
+      "newValue": "1.98% p.a.",
+      "effectiveDate": "2025-Q2",
+      "recordedAt": "2026-02-12T00:00:00.000Z",
+      "source": "App Store reviews, user complaints",
+      "notes": "Users expressing churn intent due to declining rates"
+    },
+    {
+      "id": "pricing-002",
+      "competitor": "gxb",
+      "market": "MY",
+      "category": "savings",
+      "type": "rate-change",
+      "product": "GX Account (Base)",
+      "previousValue": "3% p.a.",
+      "newValue": "2% p.a. base + bonus",
+      "effectiveDate": "2025-Q4",
+      "recordedAt": "2026-02-12T00:00:00.000Z",
+      "source": "Survey verbatims",
+      "notes": "Users comparing unfavorably to previous rates and competitors"
+    }
+  ]
+}
